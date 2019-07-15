@@ -14,11 +14,11 @@ import (
 	"github.com/valhallacoin/vhcd/blockchain"
 	"github.com/valhallacoin/vhcd/chaincfg"
 	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
-	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/hdkeychain"
 	"github.com/valhallacoin/vhcd/rpcclient"
 	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/wire"
 )
 

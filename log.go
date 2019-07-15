@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/decred/slog"
+	"github.com/jrick/logrotate/rotator"
 	"github.com/valhallacoin/vhcd/addrmgr"
 	"github.com/valhallacoin/vhcd/blockchain"
 	"github.com/valhallacoin/vhcd/blockchain/indexers"
@@ -20,8 +22,6 @@ import (
 	"github.com/valhallacoin/vhcd/mempool"
 	"github.com/valhallacoin/vhcd/peer"
 	"github.com/valhallacoin/vhcd/txscript"
-	"github.com/decred/slog"
-	"github.com/jrick/logrotate/rotator"
 )
 
 // logWriter implements an io.Writer that outputs to both standard output and

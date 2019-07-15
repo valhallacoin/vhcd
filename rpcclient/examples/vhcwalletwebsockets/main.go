@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/rpcclient"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 func main() {

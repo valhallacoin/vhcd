@@ -18,8 +18,8 @@ import (
 
 	"github.com/valhallacoin/vhcd/chaincfg"
 	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/rpcclient"
+	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/wire"
 )
 

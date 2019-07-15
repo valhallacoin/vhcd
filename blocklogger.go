@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/decred/slog"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 // blockProgressLogger provides periodic logging for other services in order

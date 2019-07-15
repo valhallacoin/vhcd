@@ -22,15 +22,15 @@ import (
 	"time"
 
 	"github.com/btcsuite/go-socks/socks"
+	"github.com/decred/slog"
+	flags "github.com/jessevdk/go-flags"
 	"github.com/valhallacoin/vhcd/connmgr"
 	"github.com/valhallacoin/vhcd/database"
 	_ "github.com/valhallacoin/vhcd/database/ffldb"
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/internal/version"
 	"github.com/valhallacoin/vhcd/mempool"
 	"github.com/valhallacoin/vhcd/sampleconfig"
-	"github.com/decred/slog"
-	flags "github.com/jessevdk/go-flags"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 const (

@@ -11,9 +11,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/valhallacoin/vhcd/vhcutil"
-	"github.com/valhallacoin/vhcd/fees"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/valhallacoin/vhcd/fees"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 type config struct {

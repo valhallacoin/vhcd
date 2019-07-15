@@ -10,11 +10,11 @@ import (
 	"os"
 	"path/filepath"
 
+	flags "github.com/jessevdk/go-flags"
 	"github.com/valhallacoin/vhcd/chaincfg"
 	"github.com/valhallacoin/vhcd/database"
 	_ "github.com/valhallacoin/vhcd/database/ffldb"
 	"github.com/valhallacoin/vhcd/vhcutil"
-	flags "github.com/jessevdk/go-flags"
 )
 
 const (

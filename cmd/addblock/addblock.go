@@ -10,11 +10,11 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/decred/slog"
 	"github.com/valhallacoin/vhcd/blockchain"
 	"github.com/valhallacoin/vhcd/blockchain/indexers"
 	"github.com/valhallacoin/vhcd/database"
 	"github.com/valhallacoin/vhcd/internal/limits"
-	"github.com/decred/slog"
 )
 
 const (

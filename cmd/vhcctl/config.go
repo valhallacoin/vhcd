@@ -16,9 +16,9 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/valhallacoin/vhcd/internal/version"
 	"github.com/valhallacoin/vhcd/vhcjson"
 	"github.com/valhallacoin/vhcd/vhcutil"
-	"github.com/valhallacoin/vhcd/internal/version"
 
 	flags "github.com/jessevdk/go-flags"
 )

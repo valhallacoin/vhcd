@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/valhallacoin/vhcd/vhcjson"
 	"github.com/valhallacoin/vhcd/rpcclient"
+	"github.com/valhallacoin/vhcd/vhcjson"
 )
 
 // JoinType is an enum representing a particular type of "node join". A node

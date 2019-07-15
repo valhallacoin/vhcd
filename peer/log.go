@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/decred/slog"
 	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
 	"github.com/valhallacoin/vhcd/txscript"
 	"github.com/valhallacoin/vhcd/wire"
-	"github.com/decred/slog"
 )
 
 const (

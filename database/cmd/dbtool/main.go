@@ -11,9 +11,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/valhallacoin/vhcd/database"
 	"github.com/decred/slog"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/valhallacoin/vhcd/database"
 )
 
 const (

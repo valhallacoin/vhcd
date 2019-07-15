@@ -35,20 +35,20 @@ import (
 
 	"github.com/gorilla/websocket"
 
+	"github.com/jrick/bitset"
 	"github.com/valhallacoin/vhcd/blockchain"
 	"github.com/valhallacoin/vhcd/blockchain/stake"
 	"github.com/valhallacoin/vhcd/certgen"
 	"github.com/valhallacoin/vhcd/chaincfg"
 	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
 	"github.com/valhallacoin/vhcd/database"
-	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
-	"github.com/valhallacoin/vhcd/vhcjson"
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/internal/version"
 	"github.com/valhallacoin/vhcd/mempool"
 	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcjson"
+	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/wire"
-	"github.com/jrick/bitset"
 )
 
 // API version constants

@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/valhallacoin/vhcd/certgen"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/valhallacoin/vhcd/certgen"
 )
 
 type config struct {

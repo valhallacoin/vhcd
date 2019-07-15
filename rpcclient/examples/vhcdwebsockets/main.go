@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/rpcclient"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 func main() {
