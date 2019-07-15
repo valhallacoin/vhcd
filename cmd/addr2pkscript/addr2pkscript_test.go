@@ -14,7 +14,8 @@ var expectedScript []byte
 
 func init() {
 	var err error
-	expectedScript, err = hex.DecodeString("a914cbb08d6ca783b533b2c7d24a51fbca92d937bf9987") if err != nil {
+	expectedScript, err = hex.DecodeString("a914cbb08d6ca783b533b2c7d24a51fbca92d937bf9987")
+	if err != nil {
 		panic(err)
 	}
 }
