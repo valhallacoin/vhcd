@@ -17,7 +17,7 @@ install:
 	env GO111MODULE=on GOBIN=$(bindir) go install -mod vendor -v . ./cmd/...
 
 uninstall:
-	rm -f $(bindir)/vhcd $(bindir)/addblock $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/promptsecret $(bindir)/vhctl
+	rm -f $(bindir)/vhcd $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcctl
 
 clean:
 	rm -f vhcd
