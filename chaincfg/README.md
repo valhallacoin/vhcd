@@ -1,17 +1,17 @@
 chaincfg
 ========
 
-[![Build Status](http://img.shields.io/travis/decred/dcrd.svg)](https://travis-ci.org/decred/dcrd)
+[![Build Status](http://img.shields.io/travis/valhallacoin/vhcd.svg)](https://travis-ci.org/valhallacoin/vhcd)
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/decred/dcrd/chaincfg)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/valhallacoin/vhcd/chaincfg)
 
 Package chaincfg defines chain configuration parameters for the three standard
-Decred networks and provides the ability for callers to define their own custom
-Decred networks.
+Valhalla networks and provides the ability for callers to define their own custom
+Valhalla networks.
 
-Although this package was primarily written for dcrd, it has intentionally been
+Although this package was primarily written for vhcd, it has intentionally been
 designed so it can be used as a standalone package for any projects needing to
-use parameters for the standard Decred networks or for projects needing to
+use parameters for the standard Valhalla networks or for projects needing to
 define their own network.
 
 ## Sample Use
@@ -24,11 +24,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/chaincfg"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/chaincfg"
 )
 
-var testnet = flag.Bool("testnet", false, "operate on the testnet Decred network")
+var testnet = flag.Bool("testnet", false, "operate on the testnet Valhalla network")
 
 // By default (without -testnet), use mainnet.
 var chainParams = &chaincfg.MainNetParams
@@ -56,7 +56,7 @@ func main() {
 ## Installation and Updating
 
 ```bash
-$ go get -u github.com/decred/dcrd/chaincfg
+$ go get -u github.com/valhallacoin/vhcd/chaincfg
 ```
 
 ## License

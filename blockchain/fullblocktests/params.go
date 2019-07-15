@@ -10,9 +10,9 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // newHashFromStr converts the passed big-endian hex string into a
@@ -44,7 +44,7 @@ var (
 	// the overhead of creating it multiple times.
 	bigOne = big.NewInt(1)
 
-	// regNetPowLimit is the highest proof of work value a Decred block
+	// regNetPowLimit is the highest proof of work value a Valhalla block
 	// can have for the regression test network.  It is the value 2^255 - 1.
 	regNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 
@@ -289,7 +289,7 @@ var regNetParams = &chaincfg.Params{
 	SLIP0044CoinType: 1, // SLIP0044, Testnet (all coins)
 	LegacyCoinType:   1,
 
-	// Decred PoS parameters
+	// Valhalla PoS parameters
 	MinimumStakeDiff:        20000,
 	TicketPoolSize:          64,
 	TicketsPerBlock:         5,
@@ -309,7 +309,7 @@ var regNetParams = &chaincfg.Params{
 	StakeMajorityMultiplier: 3,
 	StakeMajorityDivisor:    4,
 
-	// Decred organization related parameters
+	// Valhalla organization related parameters
 	OrganizationPkScript:        fromHex("a9146913bcc838bd0087fb3f6b3c868423d5e300078d87"),
 	OrganizationPkScriptVersion: 0,
 	BlockOneLedger: []*chaincfg.TokenPayout{

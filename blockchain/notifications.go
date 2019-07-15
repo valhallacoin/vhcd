@@ -8,8 +8,8 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 // NotificationType represents the type of a notification message.
@@ -115,7 +115,7 @@ type BlockAcceptedNtfnsData struct {
 	ForkLen int64
 
 	// Block is the block that was accepted into the chain.
-	Block *dcrutil.Block
+	Block *vhcutil.Block
 }
 
 // ReorganizationNtfnsData is the structure for data indicating information
@@ -141,10 +141,10 @@ type TicketNotificationsData struct {
 // Notification defines notification that is sent to the caller via the callback
 // function provided during the call to New and consists of a notification type
 // as well as associated data that depends on the type as follows:
-// 	- NTNewTipBlockChecked:    *dcrutil.Block
+// 	- NTNewTipBlockChecked:    *vhcutil.Block
 // 	- NTBlockAccepted:         *BlockAcceptedNtfnsData
-// 	- NTBlockConnected:        []*dcrutil.Block of len 2
-// 	- NTBlockDisconnected:     []*dcrutil.Block of len 2
+// 	- NTBlockConnected:        []*vhcutil.Block of len 2
+// 	- NTBlockDisconnected:     []*vhcutil.Block of len 2
 // 	- NTChainReorgStarted:     nil
 // 	- NTChainReorgDone:        nil
 //  - NTReorganization:        *ReorganizationNtfnsData

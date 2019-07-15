@@ -12,13 +12,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/decred/dcrd/blockchain/internal/progresslog"
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/database"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/blockchain/internal/progresslog"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/database"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // errInterruptRequested indicates that an operation was cancelled due
@@ -83,7 +83,7 @@ func deserializeDatabaseInfoV2(dbInfoBytes []byte) (*databaseInfo, error) {
 
 // ticketsVotedInBlock fetches a list of tickets that were voted in the
 // block.
-func ticketsVotedInBlock(bl *dcrutil.Block) []chainhash.Hash {
+func ticketsVotedInBlock(bl *vhcutil.Block) []chainhash.Hash {
 	var tickets []chainhash.Hash
 	for _, stx := range bl.MsgBlock().STransactions {
 		if stake.IsSSGen(stx) {
@@ -96,7 +96,7 @@ func ticketsVotedInBlock(bl *dcrutil.Block) []chainhash.Hash {
 
 // ticketsRevokedInBlock fetches a list of tickets that were revoked in the
 // block.
-func ticketsRevokedInBlock(bl *dcrutil.Block) []chainhash.Hash {
+func ticketsRevokedInBlock(bl *vhcutil.Block) []chainhash.Hash {
 	var tickets []chainhash.Hash
 	for _, stx := range bl.MsgBlock().STransactions {
 		if stake.DetermineTxType(stx) == stake.TxTypeSSRtx {
@@ -133,7 +133,7 @@ func upgradeToVersion2(db database.DB, chainParams *chaincfg.Params, dbInfo *dat
 		copy(hash[:], hashBytes)
 		return &hash, nil
 	}
-	dbFetchBlockByHeight := func(dbTx database.Tx, height int64) (*dcrutil.Block, error) {
+	dbFetchBlockByHeight := func(dbTx database.Tx, height int64) (*vhcutil.Block, error) {
 		// First find the hash associated with the provided height in the index.
 		hash, err := dbFetchHashByHeight(dbTx, height)
 		if err != nil {
@@ -147,7 +147,7 @@ func upgradeToVersion2(db database.DB, chainParams *chaincfg.Params, dbInfo *dat
 		}
 
 		// Create the encapsulated block and set the height appropriately.
-		block, err := dcrutil.NewBlockFromBytes(blockBytes)
+		block, err := vhcutil.NewBlockFromBytes(blockBytes)
 		if err != nil {
 			return nil, err
 		}

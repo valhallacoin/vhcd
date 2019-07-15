@@ -8,9 +8,9 @@ package blockchain
 import (
 	"math"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // nextPowerOfTwo returns the next highest power of two from a given number if
@@ -75,7 +75,7 @@ func populateMerkleStore(offset int, merkles []*chainhash.Hash) {
 // is stored in a linear array.
 //
 // A merkle tree is a tree in which every non-leaf node is the hash of its
-// children nodes.  A diagram depicting how this works for Decred transactions
+// children nodes.  A diagram depicting how this works for Valhalla transactions
 // where h(x) is a blake256 hash follows:
 //
 //	         root = h1234 = h(h12 + h34)
@@ -96,7 +96,7 @@ func populateMerkleStore(offset int, merkles []*chainhash.Hash) {
 // are calculated by concatenating the left node with itself before hashing.
 // Since this function uses nodes that are pointers to the hashes, empty nodes
 // will be nil.
-func BuildMerkleTreeStore(transactions []*dcrutil.Tx) []*chainhash.Hash {
+func BuildMerkleTreeStore(transactions []*vhcutil.Tx) []*chainhash.Hash {
 	// If there's an empty stake tree, return totally zeroed out merkle tree root
 	// only.
 	if len(transactions) == 0 {
@@ -123,7 +123,7 @@ func BuildMerkleTreeStore(transactions []*dcrutil.Tx) []*chainhash.Hash {
 }
 
 // BuildMsgTxMerkleTreeStore is identical to BuildMerkleTreeStore but takes a
-// slice of the wire.MsgTx transaction type instead of the dcrutil.Tx wrapper.
+// slice of the wire.MsgTx transaction type instead of the vhcutil.Tx wrapper.
 // See BuildMerkleTreeStore for more details.
 func BuildMsgTxMerkleTreeStore(transactions []*wire.MsgTx) []*chainhash.Hash {
 	// If there's an empty stake tree, return totally zeroed out merkle tree root

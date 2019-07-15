@@ -28,7 +28,7 @@ import (
 	"github.com/btcsuite/go-socks/socks"
 	"github.com/gorilla/websocket"
 
-	"github.com/decred/dcrd/dcrjson"
+	"github.com/valhallacoin/vhcd/vhcjson"
 )
 
 var (
@@ -106,8 +106,8 @@ type jsonRequest struct {
 	responseChan   chan *response
 }
 
-// Client represents a Decred RPC client which allows easy access to the
-// various RPC methods available on a Decred RPC server.  Each of the wrapper
+// Client represents a Valhalla RPC client which allows easy access to the
+// various RPC methods available on a Valhalla RPC server.  Each of the wrapper
 // functions handle the details of converting the passed and return types to and
 // from the underlying JSON types which are required for the JSON-RPC
 // invocations
@@ -260,22 +260,22 @@ func (c *Client) trackRegisteredNtfns(cmd interface{}) {
 	defer c.ntfnStateLock.Unlock()
 
 	switch bcmd := cmd.(type) {
-	case *dcrjson.NotifyWinningTicketsCmd:
+	case *vhcjson.NotifyWinningTicketsCmd:
 		c.ntfnState.notifyWinningTickets = true
 
-	case *dcrjson.NotifySpentAndMissedTicketsCmd:
+	case *vhcjson.NotifySpentAndMissedTicketsCmd:
 		c.ntfnState.notifySpentAndMissedTickets = true
 
-	case *dcrjson.NotifyNewTicketsCmd:
+	case *vhcjson.NotifyNewTicketsCmd:
 		c.ntfnState.notifyNewTickets = true
 
-	case *dcrjson.NotifyStakeDifficultyCmd:
+	case *vhcjson.NotifyStakeDifficultyCmd:
 		c.ntfnState.notifyStakeDifficulty = true
 
-	case *dcrjson.NotifyBlocksCmd:
+	case *vhcjson.NotifyBlocksCmd:
 		c.ntfnState.notifyBlocks = true
 
-	case *dcrjson.NotifyNewTransactionsCmd:
+	case *vhcjson.NotifyNewTransactionsCmd:
 		if bcmd.Verbose != nil && *bcmd.Verbose {
 			c.ntfnState.notifyNewTxVerbose = true
 		} else {
@@ -306,7 +306,7 @@ type (
 	// to be valid (according to JSON-RPC 1.0 spec), ID may not be nil.
 	rawResponse struct {
 		Result json.RawMessage   `json:"result"`
-		Error  *dcrjson.RPCError `json:"error"`
+		Error  *vhcjson.RPCError `json:"error"`
 	}
 )
 
@@ -325,7 +325,7 @@ func futureError(err error) chan *response {
 }
 
 // result checks whether the unmarshaled response contains a non-nil error,
-// returning an unmarshaled dcrjson.RPCError (or an unmarshaling error) if so.
+// returning an unmarshaled vhcjson.RPCError (or an unmarshaling error) if so.
 // If the response is not an error, the raw bytes of the request are
 // returned for further unmashaling into specific result types.
 func (r rawResponse) result() (result []byte, err error) {
@@ -900,14 +900,14 @@ func (c *Client) sendRequest(jReq *jsonRequest) {
 // configuration of the client.
 func (c *Client) sendCmd(cmd interface{}) chan *response {
 	// Get the method associated with the command.
-	method, err := dcrjson.CmdMethod(cmd)
+	method, err := vhcjson.CmdMethod(cmd)
 	if err != nil {
 		return newFutureError(err)
 	}
 
 	// Marshal the command.
 	id := c.NextID()
-	marshalledJSON, err := dcrjson.MarshalCmd("1.0", id, cmd)
+	marshalledJSON, err := vhcjson.MarshalCmd("1.0", id, cmd)
 	if err != nil {
 		return newFutureError(err)
 	}

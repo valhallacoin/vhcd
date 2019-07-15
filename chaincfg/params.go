@@ -11,8 +11,8 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // These variables are the chain proof-of-work limit parameters for each default
@@ -22,19 +22,19 @@ var (
 	// the overhead of creating it multiple times.
 	bigOne = big.NewInt(1)
 
-	// mainPowLimit is the highest proof of work value a Decred block can
+	// mainPowLimit is the highest proof of work value a Valhalla block can
 	// have for the main network.  It is the value 2^224 - 1.
 	mainPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
 
-	// testNetPowLimit is the highest proof of work value a Decred block
+	// testNetPowLimit is the highest proof of work value a Valhalla block
 	// can have for the test network.  It is the value 2^232 - 1.
 	testNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 232), bigOne)
 
-	// simNetPowLimit is the highest proof of work value a Decred block
+	// simNetPowLimit is the highest proof of work value a Valhalla block
 	// can have for the simulation test network.  It is the value 2^255 - 1.
 	simNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 
-	// regNetPowLimit is the highest proof of work value a Decred block
+	// regNetPowLimit is the highest proof of work value a Valhalla block
 	// can have for the regression test network.  It is the value 2^255 - 1.
 	regNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
 )
@@ -214,8 +214,8 @@ type DNSSeed struct {
 	HasFiltering bool
 }
 
-// Params defines a Decred network by its parameters.  These parameters may be
-// used by Decred applications to differentiate networks as well as addresses
+// Params defines a Valhalla network by its parameters.  These parameters may be
+// used by Valhalla applications to differentiate networks as well as addresses
 // and keys for one network from those intended for use on another network.
 type Params struct {
 	// Name defines a human-readable identifier for the network.
@@ -400,12 +400,12 @@ type Params struct {
 	// stake ticket.
 	MinimumStakeDiff int64
 
-	// Ticket pool sizes for Decred PoS. This denotes the number of possible
+	// Ticket pool sizes for Valhalla PoS. This denotes the number of possible
 	// buckets/number of different ticket numbers. It is also the number of
 	// possible winner numbers there are.
 	TicketPoolSize uint16
 
-	// Average number of tickets per block for Decred PoS.
+	// Average number of tickets per block for Valhalla PoS.
 	TicketsPerBlock uint16
 
 	// Number of blocks for tickets to mature (spendable at TicketMaturity+1).
@@ -482,10 +482,10 @@ type Params struct {
 }
 
 var (
-	// ErrDuplicateNet describes an error where the parameters for a Decred
+	// ErrDuplicateNet describes an error where the parameters for a Valhalla
 	// network could not be set due to the network already being a standard
 	// network or previously-registered into this package.
-	ErrDuplicateNet = errors.New("duplicate Decred network")
+	ErrDuplicateNet = errors.New("duplicate Valhalla network")
 
 	// ErrUnknownHDKeyID describes an error where the provided id which
 	// is intended to identify the network for a hierarchical deterministic
@@ -508,7 +508,7 @@ func (d DNSSeed) String() string {
 	return d.Host
 }
 
-// Register registers the network parameters for a Decred network.  This may
+// Register registers the network parameters for a Valhalla network.  This may
 // error with ErrDuplicateNet if the network is already registered (either
 // due to a previous Register call, or the network being one of the default
 // networks).

@@ -9,26 +9,26 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainec"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrec"
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/txscript"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainec"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcec"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
-// This example demonstrates creating a script which pays to a Decred address.
+// This example demonstrates creating a script which pays to a Valhalla address.
 // It also prints the created script hex and uses the DisasmString function to
 // display the disassembled script.
 func ExamplePayToAddrScript() {
-	// Parse the address to send the coins to into a dcrutil.Address
+	// Parse the address to send the coins to into a vhcutil.Address
 	// which is useful to ensure the accuracy of the address and determine
 	// the address type.  It is also required for the upcoming call to
 	// PayToAddrScript.
 	addressStr := "DsSej1qR3Fyc8kV176DCh9n9cY9nqf9Quxk"
-	address, err := dcrutil.DecodeAddress(addressStr)
+	address, err := vhcutil.DecodeAddress(addressStr)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -93,9 +93,9 @@ func ExampleSignTxOutput() {
 		return
 	}
 	privKey, pubKey := secp256k1.PrivKeyFromBytes(privKeyBytes)
-	pubKeyHash := dcrutil.Hash160(pubKey.SerializeCompressed())
-	addr, err := dcrutil.NewAddressPubKeyHash(pubKeyHash,
-		&chaincfg.MainNetParams, dcrec.STEcdsaSecp256k1)
+	pubKeyHash := vhcutil.Hash160(pubKey.SerializeCompressed())
+	addr, err := vhcutil.NewAddressPubKeyHash(pubKeyHash,
+		&chaincfg.MainNetParams, vhcec.STEcdsaSecp256k1)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -103,7 +103,7 @@ func ExampleSignTxOutput() {
 
 	// For this example, create a fake transaction that represents what
 	// would ordinarily be the real transaction that is being spent.  It
-	// contains a single output that pays to address in the amount of 1 DCR.
+	// contains a single output that pays to address in the amount of 1 VHC.
 	originTx := wire.NewMsgTx()
 	prevOut := wire.NewOutPoint(&chainhash.Hash{}, ^uint32(0), wire.TxTreeRegular)
 	txIn := wire.NewTxIn(prevOut, 100000000, []byte{txscript.OP_0, txscript.OP_0})
@@ -133,7 +133,7 @@ func ExampleSignTxOutput() {
 	redeemTx.AddTxOut(txOut)
 
 	// Sign the redeeming transaction.
-	lookupKey := func(a dcrutil.Address) (chainec.PrivateKey, bool, error) {
+	lookupKey := func(a vhcutil.Address) (chainec.PrivateKey, bool, error) {
 		// Ordinarily this function would involve looking up the private
 		// key for the provided address, but since the only thing being
 		// signed in this example uses the address associated with the
@@ -157,7 +157,7 @@ func ExampleSignTxOutput() {
 	sigScript, err := txscript.SignTxOutput(&chaincfg.MainNetParams,
 		redeemTx, 0, originTx.TxOut[0].PkScript, txscript.SigHashAll,
 		txscript.KeyClosure(lookupKey), nil, nil,
-		dcrec.STEcdsaSecp256k1)
+		vhcec.STEcdsaSecp256k1)
 	if err != nil {
 		fmt.Println(err)
 		return

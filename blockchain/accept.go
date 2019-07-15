@@ -8,9 +8,9 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/database"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/database"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 // maybeAcceptBlock potentially accepts a block into the block chain and, if
@@ -26,7 +26,7 @@ import (
 // behavior.
 //
 // This function MUST be called with the chain state lock held (for writes).
-func (b *BlockChain) maybeAcceptBlock(block *dcrutil.Block, flags BehaviorFlags) (int64, error) {
+func (b *BlockChain) maybeAcceptBlock(block *vhcutil.Block, flags BehaviorFlags) (int64, error) {
 	// This function should never be called with orphan blocks or the
 	// genesis block.
 	prevHash := &block.MsgBlock().Header.PrevBlock

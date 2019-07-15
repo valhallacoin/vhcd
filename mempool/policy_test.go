@@ -11,14 +11,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrec"
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/txscript"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcec"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // TestCalcMinRequiredTxRelayFee tests the calcMinRequiredTxRelayFee API.
@@ -26,7 +26,7 @@ func TestCalcMinRequiredTxRelayFee(t *testing.T) {
 	tests := []struct {
 		name     string         // test description.
 		size     int64          // Transaction size in bytes.
-		relayFee dcrutil.Amount // minimum relay transaction fee.
+		relayFee vhcutil.Amount // minimum relay transaction fee.
 		want     int64          // Expected fee.
 	}{
 		{
@@ -52,8 +52,8 @@ func TestCalcMinRequiredTxRelayFee(t *testing.T) {
 		{
 			"max standard tx size with max relay fee",
 			maxStandardTxSize,
-			dcrutil.MaxAmount,
-			dcrutil.MaxAmount,
+			vhcutil.MaxAmount,
+			vhcutil.MaxAmount,
 		},
 		{
 			"1500 bytes with 5000 relay fee",
@@ -212,7 +212,7 @@ func TestDust(t *testing.T) {
 	tests := []struct {
 		name     string // test description
 		txOut    wire.TxOut
-		relayFee dcrutil.Amount // minimum relay transaction fee.
+		relayFee vhcutil.Amount // minimum relay transaction fee.
 		isDust   bool
 	}{
 		{
@@ -268,8 +268,8 @@ func TestDust(t *testing.T) {
 		{
 			// Maximum allowed value is never dust.
 			"max amount is never dust",
-			wire.TxOut{Value: dcrutil.MaxAmount, Version: 0, PkScript: pkScript},
-			dcrutil.MaxAmount,
+			wire.TxOut{Value: vhcutil.MaxAmount, Version: 0, PkScript: pkScript},
+			vhcutil.MaxAmount,
 			false,
 		},
 		{
@@ -320,8 +320,8 @@ func TestCheckTransactionStandard(t *testing.T) {
 		SignatureScript:  dummySigScript,
 	}
 	addrHash := [20]byte{0x01}
-	addr, err := dcrutil.NewAddressPubKeyHash(addrHash[:],
-		&chaincfg.RegNetParams, dcrec.STEcdsaSecp256k1)
+	addr, err := vhcutil.NewAddressPubKeyHash(addrHash[:],
+		&chaincfg.RegNetParams, vhcec.STEcdsaSecp256k1)
 	if err != nil {
 		t.Fatalf("NewAddressPubKeyHash: unexpected error: %v", err)
 	}
@@ -530,7 +530,7 @@ func TestCheckTransactionStandard(t *testing.T) {
 	medianTime := time.Now()
 	for _, test := range tests {
 		// Ensure standardness is as expected.
-		tx := dcrutil.NewTx(&test.tx)
+		tx := vhcutil.NewTx(&test.tx)
 		err := checkTransactionStandard(tx, stake.DetermineTxType(&test.tx),
 			test.height, medianTime, DefaultMinRelayTxFee,
 			maxTxVersion)

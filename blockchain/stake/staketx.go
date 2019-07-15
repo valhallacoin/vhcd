@@ -15,12 +15,12 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrec"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/txscript"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcec"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // TxType indicates the type of tx (regular or stake type).
@@ -349,7 +349,7 @@ func TxSStxStakeOutputInfo(tx *wire.MsgTx) ([]bool, [][]byte, []int64, []int64,
 // AddrFromSStxPkScrCommitment extracts a P2SH or P2PKH address from a
 // ticket commitment pkScript.
 func AddrFromSStxPkScrCommitment(pkScript []byte,
-	params *chaincfg.Params) (dcrutil.Address, error) {
+	params *chaincfg.Params) (vhcutil.Address, error) {
 	if len(pkScript) < SStxPKHMinOutSize {
 		return nil, stakeRuleError(ErrSStxBadCommitAmount, "short read "+
 			"of sstx commit pkscript")
@@ -365,12 +365,12 @@ func AddrFromSStxPkScrCommitment(pkScript []byte,
 	hashBytes := pkScript[2:22]
 
 	var err error
-	var addr dcrutil.Address
+	var addr vhcutil.Address
 	if isP2SH {
-		addr, err = dcrutil.NewAddressScriptHashFromHash(hashBytes, params)
+		addr, err = vhcutil.NewAddressScriptHashFromHash(hashBytes, params)
 	} else {
-		addr, err = dcrutil.NewAddressPubKeyHash(hashBytes, params,
-			dcrec.STEcdsaSecp256k1)
+		addr, err = vhcutil.NewAddressPubKeyHash(hashBytes, params,
+			vhcec.STEcdsaSecp256k1)
 	}
 
 	return addr, err
@@ -378,7 +378,7 @@ func AddrFromSStxPkScrCommitment(pkScript []byte,
 
 // AmountFromSStxPkScrCommitment extracts a commitment amount from a
 // ticket commitment pkScript.
-func AmountFromSStxPkScrCommitment(pkScript []byte) (dcrutil.Amount, error) {
+func AmountFromSStxPkScrCommitment(pkScript []byte) (vhcutil.Amount, error) {
 	if len(pkScript) < SStxPKHMinOutSize {
 		return 0, stakeRuleError(ErrSStxBadCommitAmount, "short read "+
 			"of sstx commit pkscript")
@@ -390,7 +390,7 @@ func AmountFromSStxPkScrCommitment(pkScript []byte) (dcrutil.Amount, error) {
 	copy(amtEncoded, pkScript[22:30])
 	amtEncoded[7] &= ^uint8(1 << 7) // Clear bit for P2SH flag
 
-	return dcrutil.Amount(binary.LittleEndian.Uint64(amtEncoded)), nil
+	return vhcutil.Amount(binary.LittleEndian.Uint64(amtEncoded)), nil
 }
 
 // TxSSGenStakeOutputInfo takes an SSGen tx as input and scans through its
@@ -1054,7 +1054,7 @@ func DetermineTxType(tx *wire.MsgTx) TxType {
 
 // SetTxTree analyzes the embedded MsgTx and sets the transaction tree
 // accordingly.
-func SetTxTree(tx *dcrutil.Tx) {
+func SetTxTree(tx *vhcutil.Tx) {
 	txType := DetermineTxType(tx.MsgTx())
 
 	indicatedTree := wire.TxTreeRegular

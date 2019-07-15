@@ -10,10 +10,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/database"
-	_ "github.com/decred/dcrd/database/ffldb"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/database"
+	_ "github.com/valhallacoin/vhcd/database/ffldb"
+	"github.com/valhallacoin/vhcd/vhcutil"
 	flags "github.com/jessevdk/go-flags"
 )
 
@@ -24,8 +24,8 @@ const (
 )
 
 var (
-	dcrdHomeDir     = dcrutil.AppDataDir("dcrd", false)
-	defaultDataDir  = filepath.Join(dcrdHomeDir, "data")
+	vhcdHomeDir     = vhcutil.AppDataDir("vhcd", false)
+	defaultDataDir  = filepath.Join(vhcdHomeDir, "data")
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams
 )
@@ -34,7 +34,7 @@ var (
 //
 // See loadConfig for details on the configuration load process.
 type config struct {
-	DataDir           string `short:"b" long:"datadir" description:"Location of the dcrd data directory"`
+	DataDir           string `short:"b" long:"datadir" description:"Location of the vhcd data directory"`
 	DbType            string `long:"dbtype" description:"Database backend to use for the Block Chain"`
 	TestNet           bool   `long:"testnet" description:"Use the test network"`
 	SimNet            bool   `long:"simnet" description:"Use the simulation test network"`

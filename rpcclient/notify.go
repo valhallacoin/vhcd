@@ -12,10 +12,10 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrjson"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcjson"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 var (
@@ -144,43 +144,43 @@ type NotificationHandlers struct {
 	// memory pool.  It will only be invoked if a preceding call to
 	// NotifyNewTransactions with the verbose flag set to false has been
 	// made to register for the notification and the function is non-nil.
-	OnTxAccepted func(hash *chainhash.Hash, amount dcrutil.Amount)
+	OnTxAccepted func(hash *chainhash.Hash, amount vhcutil.Amount)
 
 	// OnTxAccepted is invoked when a transaction is accepted into the
 	// memory pool.  It will only be invoked if a preceding call to
 	// NotifyNewTransactions with the verbose flag set to true has been
 	// made to register for the notification and the function is non-nil.
-	OnTxAcceptedVerbose func(txDetails *dcrjson.TxRawResult)
+	OnTxAcceptedVerbose func(txDetails *vhcjson.TxRawResult)
 
-	// OnDcrdConnected is invoked when a wallet connects or disconnects from
-	// dcrd.
+	// OnVhcdConnected is invoked when a wallet connects or disconnects from
+	// vhcd.
 	//
 	// This will only be available when client is connected to a wallet
-	// server such as dcrwallet.
-	OnDcrdConnected func(connected bool)
+	// server such as vhcwallet.
+	OnVhcdConnected func(connected bool)
 
 	// OnAccountBalance is invoked with account balance updates.
 	//
 	// This will only be available when speaking to a wallet server
-	// such as dcrwallet.
-	OnAccountBalance func(account string, balance dcrutil.Amount, confirmed bool)
+	// such as vhcwallet.
+	OnAccountBalance func(account string, balance vhcutil.Amount, confirmed bool)
 
 	// OnWalletLockState is invoked when a wallet is locked or unlocked.
 	//
 	// This will only be available when client is connected to a wallet
-	// server such as dcrwallet.
+	// server such as vhcwallet.
 	OnWalletLockState func(locked bool)
 
 	// OnTicketsPurchased is invoked when a wallet purchases an SStx.
 	//
 	// This will only be available when client is connected to a wallet
-	// server such as dcrwallet.
-	OnTicketsPurchased func(TxHash *chainhash.Hash, amount dcrutil.Amount)
+	// server such as vhcwallet.
+	OnTicketsPurchased func(TxHash *chainhash.Hash, amount vhcutil.Amount)
 
 	// OnVotesCreated is invoked when a wallet generates an SSGen.
 	//
 	// This will only be available when client is connected to a wallet
-	// server such as dcrwallet.
+	// server such as vhcwallet.
 	OnVotesCreated func(txHash *chainhash.Hash,
 		blockHash *chainhash.Hash,
 		height int32,
@@ -190,7 +190,7 @@ type NotificationHandlers struct {
 	// OnRevocationsCreated is invoked when a wallet generates an SSRtx.
 	//
 	// This will only be available when client is connected to a wallet
-	// server such as dcrwallet.
+	// server such as vhcwallet.
 	OnRevocationsCreated func(txHash *chainhash.Hash,
 		sstxIn *chainhash.Hash)
 
@@ -215,7 +215,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 	switch ntfn.Method {
 	// OnBlockConnected
-	case dcrjson.BlockConnectedNtfnMethod:
+	case vhcjson.BlockConnectedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnBlockConnected == nil {
@@ -232,7 +232,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnBlockConnected(blockHeader, transactions)
 
 	// OnBlockDisconnected
-	case dcrjson.BlockDisconnectedNtfnMethod:
+	case vhcjson.BlockDisconnectedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnBlockDisconnected == nil {
@@ -248,7 +248,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnBlockDisconnected(blockHeader)
 
-	case dcrjson.RelevantTxAcceptedNtfnMethod:
+	case vhcjson.RelevantTxAcceptedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnRelevantTxAccepted == nil {
@@ -264,7 +264,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnRelevantTxAccepted(transaction)
 
-	case dcrjson.ReorganizationNtfnMethod:
+	case vhcjson.ReorganizationNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnReorganization == nil {
@@ -282,7 +282,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnReorganization(oldHash, oldHeight, newHash, newHeight)
 
 	// OnWinningTickets
-	case dcrjson.WinningTicketsNtfnMethod:
+	case vhcjson.WinningTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnWinningTickets == nil {
@@ -302,7 +302,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			tickets)
 
 	// OnSpentAndMissedTickets
-	case dcrjson.SpentAndMissedTicketsNtfnMethod:
+	case vhcjson.SpentAndMissedTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnSpentAndMissedTickets == nil {
@@ -323,7 +323,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			tickets)
 
 	// OnNewTickets
-	case dcrjson.NewTicketsNtfnMethod:
+	case vhcjson.NewTicketsNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnNewTickets == nil {
@@ -344,7 +344,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			tickets)
 
 	// OnStakeDifficulty
-	case dcrjson.StakeDifficultyNtfnMethod:
+	case vhcjson.StakeDifficultyNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnStakeDifficulty == nil {
@@ -364,7 +364,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 			stakeDiff)
 
 	// OnTxAccepted
-	case dcrjson.TxAcceptedNtfnMethod:
+	case vhcjson.TxAcceptedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnTxAccepted == nil {
@@ -381,7 +381,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnTxAccepted(hash, amt)
 
 	// OnTxAcceptedVerbose
-	case dcrjson.TxAcceptedVerboseNtfnMethod:
+	case vhcjson.TxAcceptedVerboseNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnTxAcceptedVerbose == nil {
@@ -397,25 +397,25 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 
 		c.ntfnHandlers.OnTxAcceptedVerbose(rawTx)
 
-		// OnDcrdConnected
-	case dcrjson.DcrdConnectedNtfnMethod:
+		// OnVhcdConnected
+	case vhcjson.VhcdConnectedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
-		if c.ntfnHandlers.OnDcrdConnected == nil {
+		if c.ntfnHandlers.OnVhcdConnected == nil {
 			return
 		}
 
-		connected, err := parseDcrdConnectedNtfnParams(ntfn.Params)
+		connected, err := parseVhcdConnectedNtfnParams(ntfn.Params)
 		if err != nil {
-			log.Warnf("Received invalid dcrd connected "+
+			log.Warnf("Received invalid vhcd connected "+
 				"notification: %v", err)
 			return
 		}
 
-		c.ntfnHandlers.OnDcrdConnected(connected)
+		c.ntfnHandlers.OnVhcdConnected(connected)
 
 	// OnAccountBalance
-	case dcrjson.AccountBalanceNtfnMethod:
+	case vhcjson.AccountBalanceNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnAccountBalance == nil {
@@ -432,7 +432,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnAccountBalance(account, bal, conf)
 
 	// OnTicketPurchased:
-	case dcrjson.TicketPurchasedNtfnMethod:
+	case vhcjson.TicketPurchasedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnTicketsPurchased == nil {
@@ -449,7 +449,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnTicketsPurchased(txHash, amount)
 
 	// OnVotesCreated:
-	case dcrjson.VoteCreatedNtfnMethod:
+	case vhcjson.VoteCreatedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnVotesCreated == nil {
@@ -467,7 +467,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnVotesCreated(txHash, blockHash, height, sstxIn, voteBits)
 
 	// OnRevocationsCreated:
-	case dcrjson.RevocationCreatedNtfnMethod:
+	case vhcjson.RevocationCreatedNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnRevocationsCreated == nil {
@@ -484,7 +484,7 @@ func (c *Client) handleNotification(ntfn *rawNotification) {
 		c.ntfnHandlers.OnRevocationsCreated(txHash, sstxIn)
 
 	// OnWalletLockState
-	case dcrjson.WalletLockStateNtfnMethod:
+	case vhcjson.WalletLockStateNtfnMethod:
 		// Ignore the notification if the client is not interested in
 		// it.
 		if c.ntfnHandlers.OnWalletLockState == nil {
@@ -862,7 +862,7 @@ func parseStakeDifficultyNtfnParams(params []json.RawMessage) (
 // parseTxAcceptedNtfnParams parses out the transaction hash and total amount
 // from the parameters of a txaccepted notification.
 func parseTxAcceptedNtfnParams(params []json.RawMessage) (*chainhash.Hash,
-	dcrutil.Amount, error) {
+	vhcutil.Amount, error) {
 
 	if len(params) != 2 {
 		return nil, 0, wrongNumParams(len(params))
@@ -883,7 +883,7 @@ func parseTxAcceptedNtfnParams(params []json.RawMessage) (*chainhash.Hash,
 	}
 
 	// Bounds check amount.
-	amt, err := dcrutil.NewAmount(famt)
+	amt, err := vhcutil.NewAmount(famt)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -899,7 +899,7 @@ func parseTxAcceptedNtfnParams(params []json.RawMessage) (*chainhash.Hash,
 
 // parseTxAcceptedVerboseNtfnParams parses out details about a raw transaction
 // from the parameters of a txacceptedverbose notification.
-func parseTxAcceptedVerboseNtfnParams(params []json.RawMessage) (*dcrjson.TxRawResult,
+func parseTxAcceptedVerboseNtfnParams(params []json.RawMessage) (*vhcjson.TxRawResult,
 	error) {
 
 	if len(params) != 1 {
@@ -907,7 +907,7 @@ func parseTxAcceptedVerboseNtfnParams(params []json.RawMessage) (*dcrjson.TxRawR
 	}
 
 	// Unmarshal first parameter as a raw transaction result object.
-	var rawTx dcrjson.TxRawResult
+	var rawTx vhcjson.TxRawResult
 	err := json.Unmarshal(params[0], &rawTx)
 	if err != nil {
 		return nil, err
@@ -919,9 +919,9 @@ func parseTxAcceptedVerboseNtfnParams(params []json.RawMessage) (*dcrjson.TxRawR
 	return &rawTx, nil
 }
 
-// parseDcrdConnectedNtfnParams parses out the connection status of dcrd
-// and dcrwallet from the parameters of a dcrdconnected notification.
-func parseDcrdConnectedNtfnParams(params []json.RawMessage) (bool, error) {
+// parseVhcdConnectedNtfnParams parses out the connection status of vhcd
+// and vhcwallet from the parameters of a vhcdconnected notification.
+func parseVhcdConnectedNtfnParams(params []json.RawMessage) (bool, error) {
 	if len(params) != 1 {
 		return false, wrongNumParams(len(params))
 	}
@@ -940,7 +940,7 @@ func parseDcrdConnectedNtfnParams(params []json.RawMessage) (bool, error) {
 // and whether or not the balance is confirmed or unconfirmed from the
 // parameters of an accountbalance notification.
 func parseAccountBalanceNtfnParams(params []json.RawMessage) (account string,
-	balance dcrutil.Amount, confirmed bool, err error) {
+	balance vhcutil.Amount, confirmed bool, err error) {
 
 	if len(params) != 3 {
 		return "", 0, false, wrongNumParams(len(params))
@@ -966,7 +966,7 @@ func parseAccountBalanceNtfnParams(params []json.RawMessage) (account string,
 	}
 
 	// Bounds check amount.
-	bal, err := dcrutil.NewAmount(fbal)
+	bal, err := vhcutil.NewAmount(fbal)
 	if err != nil {
 		return "", 0, false, err
 	}
@@ -977,7 +977,7 @@ func parseAccountBalanceNtfnParams(params []json.RawMessage) (account string,
 // parseTicketPurchasedNtfnParams parses out the ticket hash and amount
 // from a recent ticket purchase in the wallet.
 func parseTicketPurchasedNtfnParams(params []json.RawMessage) (txHash *chainhash.Hash,
-	amount dcrutil.Amount, err error) {
+	amount vhcutil.Amount, err error) {
 
 	if len(params) != 2 {
 		return nil, 0, wrongNumParams(len(params))
@@ -1001,7 +1001,7 @@ func parseTicketPurchasedNtfnParams(params []json.RawMessage) (txHash *chainhash
 		return nil, 0, err
 	}
 
-	return thHash, dcrutil.Amount(amt), nil
+	return thHash, vhcutil.Amount(amt), nil
 }
 
 // parseVoteCreatedNtfnParams parses out the hash, block hash, block height,
@@ -1143,7 +1143,7 @@ func (r FutureNotifyBlocksResult) Receive() error {
 //
 // See NotifyBlocks for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyBlocksAsync() FutureNotifyBlocksResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1156,7 +1156,7 @@ func (c *Client) NotifyBlocksAsync() FutureNotifyBlocksResult {
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifyBlocksCmd()
+	cmd := vhcjson.NewNotifyBlocksCmd()
 	return c.sendCmd(cmd)
 }
 
@@ -1169,7 +1169,7 @@ func (c *Client) NotifyBlocksAsync() FutureNotifyBlocksResult {
 // The notifications delivered as a result of this call will be via one of
 // OnBlockConnected or OnBlockDisconnected.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyBlocks() error {
 	return c.NotifyBlocksAsync().Receive()
 }
@@ -1191,7 +1191,7 @@ func (r FutureNotifyWinningTicketsResult) Receive() error {
 //
 // See NotifyWinningTickets for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyWinningTicketsAsync() FutureNotifyWinningTicketsResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1204,7 +1204,7 @@ func (c *Client) NotifyWinningTicketsAsync() FutureNotifyWinningTicketsResult {
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifyWinningTicketsCmd()
+	cmd := vhcjson.NewNotifyWinningTicketsCmd()
 
 	return c.sendCmd(cmd)
 }
@@ -1219,7 +1219,7 @@ func (c *Client) NotifyWinningTicketsAsync() FutureNotifyWinningTicketsResult {
 // The notifications delivered as a result of this call will be those from
 // OnWinningTickets.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyWinningTickets() error {
 	return c.NotifyWinningTicketsAsync().Receive()
 }
@@ -1241,7 +1241,7 @@ func (r FutureNotifySpentAndMissedTicketsResult) Receive() error {
 //
 // See NotifySpentAndMissedTickets for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifySpentAndMissedTicketsAsync() FutureNotifySpentAndMissedTicketsResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1254,7 +1254,7 @@ func (c *Client) NotifySpentAndMissedTicketsAsync() FutureNotifySpentAndMissedTi
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifySpentAndMissedTicketsCmd()
+	cmd := vhcjson.NewNotifySpentAndMissedTicketsCmd()
 
 	return c.sendCmd(cmd)
 }
@@ -1269,7 +1269,7 @@ func (c *Client) NotifySpentAndMissedTicketsAsync() FutureNotifySpentAndMissedTi
 // The notifications delivered as a result of this call will be those from
 // OnSpentAndMissedTickets.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifySpentAndMissedTickets() error {
 	return c.NotifySpentAndMissedTicketsAsync().Receive()
 }
@@ -1291,7 +1291,7 @@ func (r FutureNotifyNewTicketsResult) Receive() error {
 //
 // See NotifyNewTickets for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyNewTicketsAsync() FutureNotifyNewTicketsResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1304,7 +1304,7 @@ func (c *Client) NotifyNewTicketsAsync() FutureNotifyNewTicketsResult {
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifyNewTicketsCmd()
+	cmd := vhcjson.NewNotifyNewTicketsCmd()
 
 	return c.sendCmd(cmd)
 }
@@ -1317,7 +1317,7 @@ func (c *Client) NotifyNewTicketsAsync() FutureNotifyNewTicketsResult {
 //
 // The notifications delivered as a result of this call will be via OnNewTickets.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyNewTickets() error {
 	return c.NotifyNewTicketsAsync().Receive()
 }
@@ -1339,7 +1339,7 @@ func (r FutureNotifyStakeDifficultyResult) Receive() error {
 //
 // See NotifyStakeDifficulty for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyStakeDifficultyAsync() FutureNotifyStakeDifficultyResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1352,7 +1352,7 @@ func (c *Client) NotifyStakeDifficultyAsync() FutureNotifyStakeDifficultyResult 
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifyStakeDifficultyCmd()
+	cmd := vhcjson.NewNotifyStakeDifficultyCmd()
 
 	return c.sendCmd(cmd)
 }
@@ -1367,7 +1367,7 @@ func (c *Client) NotifyStakeDifficultyAsync() FutureNotifyStakeDifficultyResult 
 // The notifications delivered as a result of this call will be via
 // OnStakeDifficulty.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyStakeDifficulty() error {
 	return c.NotifyStakeDifficultyAsync().Receive()
 }
@@ -1389,7 +1389,7 @@ func (r FutureNotifyNewTransactionsResult) Receive() error {
 //
 // See NotifyNewTransactionsAsync for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyNewTransactionsAsync(verbose bool) FutureNotifyNewTransactionsResult {
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
@@ -1402,7 +1402,7 @@ func (c *Client) NotifyNewTransactionsAsync(verbose bool) FutureNotifyNewTransac
 		return newNilFutureResult()
 	}
 
-	cmd := dcrjson.NewNotifyNewTransactionsCmd(&verbose)
+	cmd := vhcjson.NewNotifyNewTransactionsCmd(&verbose)
 	return c.sendCmd(cmd)
 }
 
@@ -1416,7 +1416,7 @@ func (c *Client) NotifyNewTransactionsAsync(verbose bool) FutureNotifyNewTransac
 // OnTxAccepted (when verbose is false) or OnTxAcceptedVerbose (when verbose is
 // true).
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
+// NOTE: This is a vhcd extension and requires a websocket connection.
 func (c *Client) NotifyNewTransactions(verbose bool) error {
 	return c.NotifyNewTransactionsAsync(verbose).Receive()
 }
@@ -1438,24 +1438,24 @@ func (r FutureLoadTxFilterResult) Receive() error {
 //
 // See LoadTxFilter for the blocking version and more details.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
-func (c *Client) LoadTxFilterAsync(reload bool, addresses []dcrutil.Address,
+// NOTE: This is a vhcd extension and requires a websocket connection.
+func (c *Client) LoadTxFilterAsync(reload bool, addresses []vhcutil.Address,
 	outPoints []wire.OutPoint) FutureLoadTxFilterResult {
 
 	addrStrs := make([]string, len(addresses))
 	for i, a := range addresses {
 		addrStrs[i] = a.EncodeAddress()
 	}
-	outPointObjects := make([]dcrjson.OutPoint, len(outPoints))
+	outPointObjects := make([]vhcjson.OutPoint, len(outPoints))
 	for i := range outPoints {
-		outPointObjects[i] = dcrjson.OutPoint{
+		outPointObjects[i] = vhcjson.OutPoint{
 			Hash:  outPoints[i].Hash.String(),
 			Index: outPoints[i].Index,
 			Tree:  outPoints[i].Tree,
 		}
 	}
 
-	cmd := dcrjson.NewLoadTxFilterCmd(reload, addrStrs, outPointObjects)
+	cmd := vhcjson.NewLoadTxFilterCmd(reload, addrStrs, outPointObjects)
 	return c.sendCmd(cmd)
 }
 
@@ -1463,7 +1463,7 @@ func (c *Client) LoadTxFilterAsync(reload bool, addresses []dcrutil.Address,
 // filter.  The filter is consistently updated based on inspected transactions
 // during mempool acceptance, block acceptance, and for all rescanned blocks.
 //
-// NOTE: This is a dcrd extension and requires a websocket connection.
-func (c *Client) LoadTxFilter(reload bool, addresses []dcrutil.Address, outPoints []wire.OutPoint) error {
+// NOTE: This is a vhcd extension and requires a websocket connection.
+func (c *Client) LoadTxFilter(reload bool, addresses []vhcutil.Address, outPoints []wire.OutPoint) error {
 	return c.LoadTxFilterAsync(reload, addresses, outPoints).Receive()
 }

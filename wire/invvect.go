@@ -9,12 +9,12 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
 )
 
 const (
 	// MaxInvPerMsg is the maximum number of inventory vectors that can be in a
-	// single Decred inv message.
+	// single Valhalla inv message.
 	MaxInvPerMsg = 50000
 
 	// Maximum payload size for an inventory vector.
@@ -49,7 +49,7 @@ func (invtype InvType) String() string {
 	return fmt.Sprintf("Unknown InvType (%d)", uint32(invtype))
 }
 
-// InvVect defines a Decred inventory vector which is used to describe data,
+// InvVect defines a Valhalla inventory vector which is used to describe data,
 // as specified by the Type field, that a peer wants, has, or does not have to
 // another peer.
 type InvVect struct {

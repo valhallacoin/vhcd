@@ -8,7 +8,7 @@ package chaincfg
 import (
 	"time"
 
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // TestNet3Params defines the network parameters for the test currency network.
@@ -19,9 +19,9 @@ var TestNet3Params = Params{
 	Net:         wire.TestNet3,
 	DefaultPort: "19108",
 	DNSSeeds: []DNSSeed{
-		{"testnet-seed.decred.mindcry.org", true},
-		{"testnet-seed.decred.netpurgatory.com", true},
-		{"testnet-seed.decred.org", true},
+		{"testnet-seed.valhallacoin.minvhcy.org", true},
+		{"testnet-seed.valhallacoin.netpurgatory.com", true},
+		{"testnet-seed.valhallacoin.org", true},
 	},
 
 	// Chain parameters
@@ -126,7 +126,7 @@ var TestNet3Params = Params{
 	SLIP0044CoinType: 1,  // SLIP0044, Testnet (all coins)
 	LegacyCoinType:   11, // for backwards compatibility
 
-	// Decred PoS parameters
+	// Valhalla PoS parameters
 	MinimumStakeDiff:        20000000, // 0.2 Coin
 	TicketPoolSize:          1024,
 	TicketsPerBlock:         5,
@@ -146,7 +146,7 @@ var TestNet3Params = Params{
 	StakeMajorityMultiplier: 3,
 	StakeMajorityDivisor:    4,
 
-	// Decred organization related parameters.
+	// Valhalla organization related parameters.
 	// Organization address is TcrypGAcGCRVXrES7hWqVZb5oLJKCZEtoL1.
 	OrganizationPkScript:        hexDecode("a914d585cd7426d25b4ea5faf1e6987aacfeda3db94287"),
 	OrganizationPkScriptVersion: 0,

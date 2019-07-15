@@ -8,8 +8,8 @@ package chaincfg
 import (
 	"time"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // MainNet ------------------------------------------------------------------------
@@ -59,7 +59,7 @@ var genesisMerkleRoot = genesisCoinbaseTx.TxHashFull()
 // genesisBlock defines the genesis block of the block chain which serves as the
 // public transaction ledger for the main network.
 //
-// The genesis block for Decred mainnet, testnet, and simnet are not evaluated
+// The genesis block for Valhalla mainnet, testnet, and simnet are not evaluated
 // for proof of work. The only values that are ever used elsewhere in the
 // blockchain from it are:
 // (1) The genesis block hash is used as the PrevBlock in params.go.

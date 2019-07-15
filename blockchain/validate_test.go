@@ -16,12 +16,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/decred/dcrd/blockchain/chaingen"
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/database"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/blockchain/chaingen"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/database"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // TestBlockchainSpendJournal tests for whether or not the spend journal is being
@@ -76,7 +76,7 @@ func TestBlockchainSpendJournal(t *testing.T) {
 	// Load up the short chain
 	finalIdx1 := 179
 	for i := 1; i < finalIdx1+1; i++ {
-		bl, err := dcrutil.NewBlockFromBytes(blockChain[int64(i)])
+		bl, err := vhcutil.NewBlockFromBytes(blockChain[int64(i)])
 		if err != nil {
 			t.Fatalf("NewBlockFromBytes error: %v", err.Error())
 		}
@@ -315,7 +315,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 	accepted := func() {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -342,7 +342,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 	rejected := func(code ErrorCode) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -380,7 +380,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 	acceptedToSideChainWithExpectedTip := func(tipName string) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -647,7 +647,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -673,7 +673,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -724,7 +724,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 1)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			b.AddTransaction(tx)
 		})
 	g.SaveTipCoinbaseOuts()
@@ -735,7 +735,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 2)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -756,7 +756,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -782,7 +782,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 3)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -810,7 +810,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceBlockVersion(6), chaingen.ReplaceStakeVersion(6),
 		chaingen.ReplaceVoteVersions(6), func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 4)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			b.AddTransaction(tx)
 		})
 	g.SaveTipCoinbaseOuts()
@@ -822,7 +822,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 		chaingen.ReplaceVotes(vbDisapprovePrev, 6), func(b *wire.MsgBlock) {
 			b.Header.VoteBits &^= vbApprovePrev
 			spend := chaingen.MakeSpendableOut(b0, 1, 5)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -834,7 +834,7 @@ func TestLegacySequenceLocks(t *testing.T) {
 func TestCheckBlockSanity(t *testing.T) {
 	params := &chaincfg.RegNetParams
 	timeSource := NewMedianTime()
-	block := dcrutil.NewBlock(&badBlock)
+	block := vhcutil.NewBlock(&badBlock)
 	err := CheckBlockSanity(block, timeSource, params)
 	if err == nil {
 		t.Fatalf("block should fail.\n")
@@ -876,7 +876,7 @@ func TestCheckBlockHeaderContext(t *testing.T) {
 
 	// Test failing checkBlockHeaderContext when calcNextRequiredDifficulty
 	// fails.
-	block := dcrutil.NewBlock(&badBlock)
+	block := vhcutil.NewBlock(&badBlock)
 	newNode := newBlockNode(&block.MsgBlock().Header, nil)
 	err = chain.checkBlockHeaderContext(&block.MsgBlock().Header, newNode, BFNone)
 	if err == nil {
@@ -986,7 +986,7 @@ func TestCheckConnectBlockTemplate(t *testing.T) {
 	accepted := func() {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)",
 			g.TipName(), block.Hash(), blockHeight)
 
@@ -1014,7 +1014,7 @@ func TestCheckConnectBlockTemplate(t *testing.T) {
 	rejected := func(code ErrorCode) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -1056,7 +1056,7 @@ func TestCheckConnectBlockTemplate(t *testing.T) {
 	acceptedToSideChainWithExpectedTip := func(tipName string) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)",
 			g.TipName(), block.Hash(), blockHeight)
 
@@ -1098,7 +1098,7 @@ func TestCheckConnectBlockTemplate(t *testing.T) {
 	acceptedBlockTemplate := func() {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block template %s (hash %s, height %d)",
 			g.TipName(), block.Hash(), blockHeight)
 
@@ -1112,7 +1112,7 @@ func TestCheckConnectBlockTemplate(t *testing.T) {
 	rejectedBlockTemplate := func(code ErrorCode) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block template %s (hash %s, height %d)",
 			g.TipName(), block.Hash(), blockHeight)
 

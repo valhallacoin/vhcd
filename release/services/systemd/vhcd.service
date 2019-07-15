@@ -1,0 +1,13 @@
+[Unit]
+Description=Valhalla Full Node
+
+[Service]
+Type=simple
+User=vhcd
+Group=vhcd
+WorkingDirectory=/var/vhcd
+ExecStart=/opt/valhallacoin/bin/vhcd --appdata=/var/vhcd
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

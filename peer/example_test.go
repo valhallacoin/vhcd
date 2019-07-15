@@ -10,9 +10,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/peer"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/peer"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // mockRemotePeer creates a basic inbound peer listening on the simnet port for

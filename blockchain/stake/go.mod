@@ -1,13 +1,13 @@
-module github.com/decred/dcrd/blockchain/stake
+module github.com/valhallacoin/vhcd/blockchain/stake
 
 require (
-	github.com/decred/dcrd/chaincfg v1.2.0
-	github.com/decred/dcrd/chaincfg/chainhash v1.0.1
-	github.com/decred/dcrd/database v1.0.1
-	github.com/decred/dcrd/dcrec v0.0.0-20180801202239-0761de129164
-	github.com/decred/dcrd/dcrutil v1.1.1
-	github.com/decred/dcrd/txscript v1.0.1
-	github.com/decred/dcrd/wire v1.2.0
+	github.com/valhallacoin/vhcd/chaincfg v1.2.0
+	github.com/valhallacoin/vhcd/chaincfg/chainhash v1.0.1
+	github.com/valhallacoin/vhcd/database v1.0.1
+	github.com/valhallacoin/vhcd/vhcec v0.0.0-20180801202239-0761de129164
+	github.com/valhallacoin/vhcd/vhcutil v1.1.1
+	github.com/valhallacoin/vhcd/txscript v1.0.1
+	github.com/valhallacoin/vhcd/wire v1.2.0
 	github.com/decred/slog v1.0.0
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/golang/protobuf v1.2.0 // indirect
@@ -20,13 +20,13 @@ require (
 )
 
 replace (
-	github.com/decred/dcrd/chaincfg => ../../chaincfg
-	github.com/decred/dcrd/chaincfg/chainhash => ../../chaincfg/chainhash
-	github.com/decred/dcrd/database => ../../database
-	github.com/decred/dcrd/dcrec => ../../dcrec
-	github.com/decred/dcrd/dcrec/edwards => ../../dcrec/edwards
-	github.com/decred/dcrd/dcrec/secp256k1 => ../../dcrec/secp256k1
-	github.com/decred/dcrd/dcrutil => ../../dcrutil
-	github.com/decred/dcrd/txscript => ../../txscript
-	github.com/decred/dcrd/wire => ../../wire
+	github.com/valhallacoin/vhcd/chaincfg => ../../chaincfg
+	github.com/valhallacoin/vhcd/chaincfg/chainhash => ../../chaincfg/chainhash
+	github.com/valhallacoin/vhcd/database => ../../database
+	github.com/valhallacoin/vhcd/vhcec => ../../vhcec
+	github.com/valhallacoin/vhcd/vhcec/edwards => ../../vhcec/edwards
+	github.com/valhallacoin/vhcd/vhcec/secp256k1 => ../../vhcec/secp256k1
+	github.com/valhallacoin/vhcd/vhcutil => ../../vhcutil
+	github.com/valhallacoin/vhcd/txscript => ../../txscript
+	github.com/valhallacoin/vhcd/wire => ../../wire
 )

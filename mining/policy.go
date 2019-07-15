@@ -6,9 +6,9 @@
 package mining
 
 import (
-	"github.com/decred/dcrd/blockchain"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/blockchain"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 const (
@@ -37,7 +37,7 @@ type Policy struct {
 	// TxMinFreeFee is the minimum fee in Atoms/1000 bytes that is
 	// required for a transaction to be treated as free for mining purposes
 	// (block template generation).
-	TxMinFreeFee dcrutil.Amount
+	TxMinFreeFee vhcutil.Amount
 }
 
 // minInt is a helper function to return the minimum of two ints.  This avoids

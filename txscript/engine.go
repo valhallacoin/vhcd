@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // ScriptFlags is a bitmask defining additional operations or tests that will be
@@ -61,7 +61,7 @@ const (
 	MaxScriptSize = 16384
 
 	// DefaultScriptVersion is the default scripting language version
-	// representing extended Decred script.
+	// representing extended Valhalla script.
 	DefaultScriptVersion = uint16(0)
 )
 

@@ -1,14 +1,14 @@
-module github.com/decred/dcrd/connmgr
+module github.com/valhallacoin/vhcd/connmgr
 
 require (
-	github.com/decred/dcrd/chaincfg v1.1.1
-	github.com/decred/dcrd/wire v1.2.0
+	github.com/valhallacoin/vhcd/chaincfg v1.1.1
+	github.com/valhallacoin/vhcd/wire v1.2.0
 	github.com/decred/slog v1.0.0
 )
 
 replace (
-	github.com/decred/dcrd/chaincfg => ../chaincfg
-	github.com/decred/dcrd/chaincfg/chainhash => ../chaincfg/chainhash
-	github.com/decred/dcrd/dcrec/secp256k1 => ../dcrec/secp256k1
-	github.com/decred/dcrd/wire => ../wire
+	github.com/valhallacoin/vhcd/chaincfg => ../chaincfg
+	github.com/valhallacoin/vhcd/chaincfg/chainhash => ../chaincfg/chainhash
+	github.com/valhallacoin/vhcd/vhcec/secp256k1 => ../vhcec/secp256k1
+	github.com/valhallacoin/vhcd/wire => ../wire
 )

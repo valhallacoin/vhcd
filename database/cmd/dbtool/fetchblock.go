@@ -10,8 +10,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/database"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/database"
 )
 
 // fetchBlockCmd defines the configuration options for the fetchblock command.

@@ -11,11 +11,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/database"
-	_ "github.com/decred/dcrd/database/ffldb"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/database"
+	_ "github.com/valhallacoin/vhcd/database/ffldb"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // This example demonstrates creating a new database.
@@ -23,8 +23,8 @@ func ExampleCreate() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/decred/dcrd/database2"
-	// 	_ "github.com/decred/dcrd/database/ffldb"
+	// 	"github.com/valhallacoin/vhcd/database2"
+	// 	_ "github.com/valhallacoin/vhcd/database/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.
@@ -49,8 +49,8 @@ func Example_basicUsage() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/decred/dcrd/database2"
-	// 	_ "github.com/decred/dcrd/database/ffldb"
+	// 	"github.com/valhallacoin/vhcd/database2"
+	// 	_ "github.com/valhallacoin/vhcd/database/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.
@@ -115,8 +115,8 @@ func Example_blockStorageAndRetrieval() {
 	// This example assumes the ffldb driver is imported.
 	//
 	// import (
-	// 	"github.com/decred/dcrd/database2"
-	// 	_ "github.com/decred/dcrd/database/ffldb"
+	// 	"github.com/valhallacoin/vhcd/database2"
+	// 	_ "github.com/valhallacoin/vhcd/database/ffldb"
 	// )
 
 	// Create a database and schedule it to be closed and removed on exit.
@@ -137,7 +137,7 @@ func Example_blockStorageAndRetrieval() {
 	// and example.
 	err = db.Update(func(tx database.Tx) error {
 		genesisBlock := chaincfg.MainNetParams.GenesisBlock
-		return tx.StoreBlock(dcrutil.NewBlock(genesisBlock))
+		return tx.StoreBlock(vhcutil.NewBlock(genesisBlock))
 	})
 	if err != nil {
 		fmt.Println(err)

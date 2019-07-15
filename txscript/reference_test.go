@@ -17,9 +17,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 var (
@@ -557,7 +557,7 @@ testloop:
 			continue
 		}
 
-		tx, err := dcrutil.NewTxFromBytes(serializedTx)
+		tx, err := vhcutil.NewTxFromBytes(serializedTx)
 		if err != nil {
 			t.Errorf("bad test (arg 2 not msgtx %v) %d: %v", err,
 				i, test)
@@ -700,7 +700,7 @@ testloop:
 			continue
 		}
 
-		tx, err := dcrutil.NewTxFromBytes(serializedTx)
+		tx, err := vhcutil.NewTxFromBytes(serializedTx)
 		if err != nil {
 			t.Errorf("bad test (arg 2 not msgtx %v) %d: %v", err,
 				i, test)

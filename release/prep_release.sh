@@ -23,11 +23,11 @@
 #   - Updates project changes file with release notes
 #
 
-PROJECT=dcrd
+PROJECT=vhcd
 PROJECT_UC=$(echo $PROJECT | tr '[:lower:]' '[:upper:]')
 SCRIPT=$(basename $0)
 VERFILE=../version.go
-VERFILES="$VERFILE ../cmd/dcrctl/version.go"
+VERFILES="$VERFILE ../cmd/vhcctl/version.go"
 PROJ_CHANGES=../CHANGES
 
 # verify params

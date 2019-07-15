@@ -8,7 +8,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // RegNetParams defines the network parameters for the regression test network.
@@ -17,7 +17,7 @@ import (
 // RPC server tests.  On the other hand, the simulation test network is intended
 // for full integration tests between different applications such as wallets,
 // voting service providers, mining pools, block explorers, and other services
-// that build on Decred.
+// that build on Valhalla.
 //
 // Since this network is only intended for unit testing, its values are subject
 // to change even if it would cause a hard fork.
@@ -211,7 +211,7 @@ var RegNetParams = Params{
 	SLIP0044CoinType: 1, // SLIP0044, Testnet (all coins)
 	LegacyCoinType:   1,
 
-	// Decred PoS parameters
+	// Valhalla PoS parameters
 	MinimumStakeDiff:        20000,
 	TicketPoolSize:          64,
 	TicketsPerBlock:         5,
@@ -231,7 +231,7 @@ var RegNetParams = Params{
 	StakeMajorityMultiplier: 3,
 	StakeMajorityDivisor:    4,
 
-	// Decred organization related parameters
+	// Valhalla organization related parameters
 	//
 	// Treasury address is a 3-of-3 P2SH going to a wallet with seed:
 	// aardvark adroitness aardvark adroitness

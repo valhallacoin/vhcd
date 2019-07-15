@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/decred/dcrd/blockchain/chaingen"
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/dcrutil"
-	"github.com/decred/dcrd/txscript"
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/blockchain/chaingen"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/vhcutil"
+	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // testLNFeaturesDeployment ensures the deployment of the LN features agenda
@@ -391,7 +391,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	accepted := func() {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -429,7 +429,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	acceptedToSideChainWithExpectedTip := func(tipName string) {
 		msgBlock := g.Tip()
 		blockHeight := msgBlock.Header.Height
-		block := dcrutil.NewBlock(msgBlock)
+		block := vhcutil.NewBlock(msgBlock)
 		t.Logf("Testing block %s (hash %s, height %d)", g.TipName(),
 			block.Hash(), blockHeight)
 
@@ -701,7 +701,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b1a", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -724,7 +724,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b2", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -772,7 +772,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b5", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 1)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			b.AddTransaction(tx)
 		})
 	g.SaveTipCoinbaseOuts()
@@ -782,7 +782,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b6", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 2)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -802,7 +802,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b7", &outs[0], outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b, 1, 0)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -827,7 +827,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b9", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 3)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})
@@ -855,7 +855,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 	g.NextBlock("b10", nil, outs[1:], replaceFixSeqLocksVersions,
 		func(b *wire.MsgBlock) {
 			spend := chaingen.MakeSpendableOut(b0, 1, 4)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			b.AddTransaction(tx)
 		})
 	g.SaveTipCoinbaseOuts()
@@ -867,7 +867,7 @@ func TestFixedSequenceLocks(t *testing.T) {
 		func(b *wire.MsgBlock) {
 			b.Header.VoteBits &^= vbApprovePrev
 			spend := chaingen.MakeSpendableOut(b0, 1, 5)
-			tx := g.CreateSpendTx(&spend, dcrutil.Amount(1))
+			tx := g.CreateSpendTx(&spend, vhcutil.Amount(1))
 			enableSeqLocks(tx, 0)
 			b.AddTransaction(tx)
 		})

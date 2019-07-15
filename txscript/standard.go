@@ -9,11 +9,11 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrec"
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcec"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 const (
@@ -23,7 +23,7 @@ const (
 
 	// nilAddrErrStr is the common error string to use for attempts to
 	// generate payment scripts to nil addresses embedded within a
-	// dcrutil.Address interface.
+	// vhcutil.Address interface.
 	nilAddrErrStr = "unable to generate payment script for nil address"
 )
 
@@ -626,7 +626,7 @@ func payToPubKeyHashScript(pubKeyHash []byte) ([]byte, error) {
 // output to a 20-byte pubkey hash of an Edwards public key. It is expected
 // that the input is a valid hash.
 func payToPubKeyHashEdwardsScript(pubKeyHash []byte) ([]byte, error) {
-	edwardsData := []byte{byte(dcrec.STEd25519)}
+	edwardsData := []byte{byte(vhcec.STEd25519)}
 	return NewScriptBuilder().AddOp(OP_DUP).AddOp(OP_HASH160).
 		AddData(pubKeyHash).AddOp(OP_EQUALVERIFY).AddData(edwardsData).
 		AddOp(OP_CHECKSIGALT).Script()
@@ -637,7 +637,7 @@ func payToPubKeyHashEdwardsScript(pubKeyHash []byte) ([]byte, error) {
 // a schnorr signature instead of a classic secp256k1 signature. It is
 // expected that the input is a valid hash.
 func payToPubKeyHashSchnorrScript(pubKeyHash []byte) ([]byte, error) {
-	schnorrData := []byte{byte(dcrec.STSchnorrSecp256k1)}
+	schnorrData := []byte{byte(vhcec.STSchnorrSecp256k1)}
 	return NewScriptBuilder().AddOp(OP_DUP).AddOp(OP_HASH160).
 		AddData(pubKeyHash).AddOp(OP_EQUALVERIFY).AddData(schnorrData).
 		AddOp(OP_CHECKSIGALT).Script()
@@ -689,7 +689,7 @@ func payToPubKeyScript(serializedPubKey []byte) ([]byte, error) {
 // payToEdwardsPubKeyScript creates a new script to pay a transaction output
 // to an Ed25519 public key. It is expected that the input is a valid pubkey.
 func payToEdwardsPubKeyScript(serializedPubKey []byte) ([]byte, error) {
-	edwardsData := []byte{byte(dcrec.STEd25519)}
+	edwardsData := []byte{byte(vhcec.STEd25519)}
 	return NewScriptBuilder().AddData(serializedPubKey).AddData(edwardsData).
 		AddOp(OP_CHECKSIGALT).Script()
 }
@@ -698,7 +698,7 @@ func payToEdwardsPubKeyScript(serializedPubKey []byte) ([]byte, error) {
 // to a secp256k1 public key, but to be signed by Schnorr type signature. It
 // is expected that the input is a valid pubkey.
 func payToSchnorrPubKeyScript(serializedPubKey []byte) ([]byte, error) {
-	schnorrData := []byte{byte(dcrec.STSchnorrSecp256k1)}
+	schnorrData := []byte{byte(vhcec.STSchnorrSecp256k1)}
 	return NewScriptBuilder().AddData(serializedPubKey).AddData(schnorrData).
 		AddOp(OP_CHECKSIGALT).Script()
 }
@@ -706,23 +706,23 @@ func payToSchnorrPubKeyScript(serializedPubKey []byte) ([]byte, error) {
 // PayToSStx creates a new script to pay a transaction output to a script hash or
 // public key hash, but tags the output with OP_SSTX. For use in constructing
 // valid SStxs.
-func PayToSStx(addr dcrutil.Address) ([]byte, error) {
+func PayToSStx(addr vhcutil.Address) ([]byte, error) {
 	// Only pay to pubkey hash and pay to script hash are
 	// supported.
 	scriptType := PubKeyHashTy
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
-		if addr.DSA(addr.Net()) != dcrec.STEcdsaSecp256k1 {
+		if addr.DSA(addr.Net()) != vhcec.STEcdsaSecp256k1 {
 			str := "unable to generate payment script for " +
 				"unsupported digital signature algorithm"
 			return nil, scriptError(ErrUnsupportedAddress, str)
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -749,23 +749,23 @@ func PayToSStx(addr dcrutil.Address) ([]byte, error) {
 // PayToSStxChange creates a new script to pay a transaction output to a
 // public key hash, but tags the output with OP_SSTXCHANGE. For use in constructing
 // valid SStxs.
-func PayToSStxChange(addr dcrutil.Address) ([]byte, error) {
+func PayToSStxChange(addr vhcutil.Address) ([]byte, error) {
 	// Only pay to pubkey hash and pay to script hash are
 	// supported.
 	scriptType := PubKeyHashTy
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
-		if addr.DSA(addr.Net()) != dcrec.STEcdsaSecp256k1 {
+		if addr.DSA(addr.Net()) != vhcec.STEcdsaSecp256k1 {
 			str := "unable to generate payment script for " +
 				"unsupported digital signature algorithm"
 			return nil, scriptError(ErrUnsupportedAddress, str)
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -792,23 +792,23 @@ func PayToSStxChange(addr dcrutil.Address) ([]byte, error) {
 // PayToSSGen creates a new script to pay a transaction output to a public key
 // hash or script hash, but tags the output with OP_SSGEN. For use in constructing
 // valid SSGen txs.
-func PayToSSGen(addr dcrutil.Address) ([]byte, error) {
+func PayToSSGen(addr vhcutil.Address) ([]byte, error) {
 	// Only pay to pubkey hash and pay to script hash are
 	// supported.
 	scriptType := PubKeyHashTy
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
-		if addr.DSA(addr.Net()) != dcrec.STEcdsaSecp256k1 {
+		if addr.DSA(addr.Net()) != vhcec.STEcdsaSecp256k1 {
 			str := "unable to generate payment script for " +
 				"unsupported digital signature algorithm"
 			return nil, scriptError(ErrUnsupportedAddress, str)
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -854,23 +854,23 @@ func PayToSSGenSHDirect(sh []byte) ([]byte, error) {
 // PayToSSRtx creates a new script to pay a transaction output to a
 // public key hash, but tags the output with OP_SSRTX. For use in constructing
 // valid SSRtx.
-func PayToSSRtx(addr dcrutil.Address) ([]byte, error) {
+func PayToSSRtx(addr vhcutil.Address) ([]byte, error) {
 	// Only pay to pubkey hash and pay to script hash are
 	// supported.
 	scriptType := PubKeyHashTy
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
-		if addr.DSA(addr.Net()) != dcrec.STEcdsaSecp256k1 {
+		if addr.DSA(addr.Net()) != vhcec.STEcdsaSecp256k1 {
 			str := "unable to generate payment script for " +
 				"unsupported digital signature algorithm"
 			return nil, scriptError(ErrUnsupportedAddress, str)
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -915,23 +915,23 @@ func PayToSSRtxSHDirect(sh []byte) ([]byte, error) {
 
 // GenerateSStxAddrPush generates an OP_RETURN push for SSGen payment addresses in
 // an SStx.
-func GenerateSStxAddrPush(addr dcrutil.Address, amount dcrutil.Amount, limits uint16) ([]byte, error) {
+func GenerateSStxAddrPush(addr vhcutil.Address, amount vhcutil.Amount, limits uint16) ([]byte, error) {
 	// Only pay to pubkey hash and pay to script hash are
 	// supported.
 	scriptType := PubKeyHashTy
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
-		if addr.DSA(addr.Net()) != dcrec.STEcdsaSecp256k1 {
+		if addr.DSA(addr.Net()) != vhcec.STEcdsaSecp256k1 {
 			str := "unable to generate payment script for " +
 				"unsupported digital signature algorithm"
 			return nil, scriptError(ErrUnsupportedAddress, str)
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -994,44 +994,44 @@ func GenerateProvablyPruneableOut(data []byte) ([]byte, error) {
 
 // PayToAddrScript creates a new script to pay a transaction output to a the
 // specified address.
-func PayToAddrScript(addr dcrutil.Address) ([]byte, error) {
+func PayToAddrScript(addr vhcutil.Address) ([]byte, error) {
 	switch addr := addr.(type) {
-	case *dcrutil.AddressPubKeyHash:
+	case *vhcutil.AddressPubKeyHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
 		switch addr.DSA(addr.Net()) {
-		case dcrec.STEcdsaSecp256k1:
+		case vhcec.STEcdsaSecp256k1:
 			return payToPubKeyHashScript(addr.ScriptAddress())
-		case dcrec.STEd25519:
+		case vhcec.STEd25519:
 			return payToPubKeyHashEdwardsScript(addr.ScriptAddress())
-		case dcrec.STSchnorrSecp256k1:
+		case vhcec.STSchnorrSecp256k1:
 			return payToPubKeyHashSchnorrScript(addr.ScriptAddress())
 		}
 
-	case *dcrutil.AddressScriptHash:
+	case *vhcutil.AddressScriptHash:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
 		return payToScriptHashScript(addr.ScriptAddress())
 
-	case *dcrutil.AddressSecpPubKey:
+	case *vhcutil.AddressSecpPubKey:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
 		return payToPubKeyScript(addr.ScriptAddress())
 
-	case *dcrutil.AddressEdwardsPubKey:
+	case *vhcutil.AddressEdwardsPubKey:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
 		}
 		return payToEdwardsPubKeyScript(addr.ScriptAddress())
 
-	case *dcrutil.AddressSecSchnorrPubKey:
+	case *vhcutil.AddressSecSchnorrPubKey:
 		if addr == nil {
 			return nil, scriptError(ErrUnsupportedAddress,
 				nilAddrErrStr)
@@ -1048,7 +1048,7 @@ func PayToAddrScript(addr dcrutil.Address) ([]byte, error) {
 // nrequired of the keys in pubkeys are required to have signed the transaction
 // for success.  An Error with the error code ErrTooManyRequiredSigs will be
 // returned if nrequired is larger than the number of keys provided.
-func MultiSigScript(pubkeys []*dcrutil.AddressSecpPubKey, nrequired int) ([]byte, error) {
+func MultiSigScript(pubkeys []*vhcutil.AddressSecpPubKey, nrequired int) ([]byte, error) {
 	if len(pubkeys) < nrequired {
 		str := fmt.Sprintf("unable to generate multisig script with "+
 			"%d required signatures when there are only %d public "+
@@ -1106,12 +1106,12 @@ func GetMultisigMandN(script []byte) (uint8, uint8, error) {
 // 'standard' transaction script types.  Any data such as public keys which are
 // invalid are omitted from the results.
 func ExtractPkScriptAddrs(version uint16, pkScript []byte,
-	chainParams *chaincfg.Params) (ScriptClass, []dcrutil.Address, int, error) {
+	chainParams *chaincfg.Params) (ScriptClass, []vhcutil.Address, int, error) {
 	if version != DefaultScriptVersion {
 		return NonStandardTy, nil, 0, fmt.Errorf("invalid script version")
 	}
 
-	var addrs []dcrutil.Address
+	var addrs []vhcutil.Address
 	var requiredSigs int
 
 	// No valid addresses or required signatures if the script doesn't
@@ -1130,8 +1130,8 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		// Therefore the pubkey hash is the 3rd item on the stack.
 		// Skip the pubkey hash if it's invalid for some reason.
 		requiredSigs = 1
-		addr, err := dcrutil.NewAddressPubKeyHash(pops[2].data,
-			chainParams, dcrec.STEcdsaSecp256k1)
+		addr, err := vhcutil.NewAddressPubKeyHash(pops[2].data,
+			chainParams, vhcec.STEcdsaSecp256k1)
 		if err == nil {
 			addrs = append(addrs, addr)
 		}
@@ -1143,7 +1143,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		// Skip the pubkey hash if it's invalid for some reason.
 		requiredSigs = 1
 		suite, _ := ExtractPkScriptAltSigType(pkScript)
-		addr, err := dcrutil.NewAddressPubKeyHash(pops[2].data,
+		addr, err := vhcutil.NewAddressPubKeyHash(pops[2].data,
 			chainParams, suite)
 		if err == nil {
 			addrs = append(addrs, addr)
@@ -1157,7 +1157,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		requiredSigs = 1
 		pk, err := secp256k1.ParsePubKey(pops[0].data)
 		if err == nil {
-			addr, err := dcrutil.NewAddressSecpPubKeyCompressed(pk, chainParams)
+			addr, err := vhcutil.NewAddressSecpPubKeyCompressed(pk, chainParams)
 			if err == nil {
 				addrs = append(addrs, addr)
 			}
@@ -1170,14 +1170,14 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		// Skip the pubkey if it's invalid for some reason.
 		requiredSigs = 1
 		suite, _ := ExtractPkScriptAltSigType(pkScript)
-		var addr dcrutil.Address
+		var addr vhcutil.Address
 		err := fmt.Errorf("invalid signature suite for alt sig")
 		switch suite {
-		case dcrec.STEd25519:
-			addr, err = dcrutil.NewAddressEdwardsPubKey(pops[0].data,
+		case vhcec.STEd25519:
+			addr, err = vhcutil.NewAddressEdwardsPubKey(pops[0].data,
 				chainParams)
-		case dcrec.STSchnorrSecp256k1:
-			addr, err = dcrutil.NewAddressSecSchnorrPubKey(pops[0].data,
+		case vhcec.STSchnorrSecp256k1:
+			addr, err = vhcutil.NewAddressSecSchnorrPubKey(pops[0].data,
 				chainParams)
 		}
 		if err == nil {
@@ -1187,7 +1187,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 	case StakeSubmissionTy:
 		// A pay-to-stake-submission-hash script is of the form:
 		//  OP_SSTX ... P2PKH or P2SH
-		var localAddrs []dcrutil.Address
+		var localAddrs []vhcutil.Address
 		_, localAddrs, requiredSigs, err =
 			ExtractPkScriptAddrs(version, getStakeOutSubscript(pkScript),
 				chainParams)
@@ -1198,7 +1198,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 	case StakeGenTy:
 		// A pay-to-stake-generation-hash script is of the form:
 		//  OP_SSGEN  ... P2PKH or P2SH
-		var localAddrs []dcrutil.Address
+		var localAddrs []vhcutil.Address
 		_, localAddrs, requiredSigs, err = ExtractPkScriptAddrs(version,
 			getStakeOutSubscript(pkScript), chainParams)
 		if err == nil {
@@ -1208,7 +1208,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 	case StakeRevocationTy:
 		// A pay-to-stake-revocation-hash script is of the form:
 		//  OP_SSRTX  ... P2PKH or P2SH
-		var localAddrs []dcrutil.Address
+		var localAddrs []vhcutil.Address
 		_, localAddrs, requiredSigs, err =
 			ExtractPkScriptAddrs(version, getStakeOutSubscript(pkScript),
 				chainParams)
@@ -1219,7 +1219,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 	case StakeSubChangeTy:
 		// A pay-to-stake-submission-change-hash script is of the form:
 		// OP_SSTXCHANGE ... P2PKH or P2SH
-		var localAddrs []dcrutil.Address
+		var localAddrs []vhcutil.Address
 		_, localAddrs, requiredSigs, err =
 			ExtractPkScriptAddrs(version, getStakeOutSubscript(pkScript),
 				chainParams)
@@ -1233,7 +1233,7 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		// Therefore the script hash is the 2nd item on the stack.
 		// Skip the script hash if it's invalid for some reason.
 		requiredSigs = 1
-		addr, err := dcrutil.NewAddressScriptHashFromHash(pops[1].data,
+		addr, err := vhcutil.NewAddressScriptHashFromHash(pops[1].data,
 			chainParams)
 		if err == nil {
 			addrs = append(addrs, addr)
@@ -1249,11 +1249,11 @@ func ExtractPkScriptAddrs(version uint16, pkScript []byte,
 		numPubKeys := asSmallInt(pops[len(pops)-2].opcode)
 
 		// Extract the public keys while skipping any that are invalid.
-		addrs = make([]dcrutil.Address, 0, numPubKeys)
+		addrs = make([]vhcutil.Address, 0, numPubKeys)
 		for i := 0; i < numPubKeys; i++ {
 			pubkey, err := secp256k1.ParsePubKey(pops[i+1].data)
 			if err == nil {
-				addr, err := dcrutil.NewAddressSecpPubKeyCompressed(pubkey,
+				addr, err := vhcutil.NewAddressSecpPubKeyCompressed(pubkey,
 					chainParams)
 				if err == nil {
 					addrs = append(addrs, addr)
@@ -1303,7 +1303,7 @@ func extractOneBytePush(po parsedOpcode) int {
 
 // ExtractPkScriptAltSigType returns the signature scheme to use for an
 // alternative check signature script.
-func ExtractPkScriptAltSigType(pkScript []byte) (dcrec.SignatureType, error) {
+func ExtractPkScriptAltSigType(pkScript []byte) (vhcec.SignatureType, error) {
 	pops, err := parseScript(pkScript)
 	if err != nil {
 		return 0, err
@@ -1324,11 +1324,11 @@ func ExtractPkScriptAltSigType(pkScript []byte) (dcrec.SignatureType, error) {
 	if valInt < 0 {
 		return 0, fmt.Errorf("bad type push")
 	}
-	val := dcrec.SignatureType(valInt)
+	val := vhcec.SignatureType(valInt)
 	switch val {
-	case dcrec.STEd25519:
+	case vhcec.STEd25519:
 		return val, nil
-	case dcrec.STSchnorrSecp256k1:
+	case vhcec.STSchnorrSecp256k1:
 		return val, nil
 	default:
 		break
@@ -1351,7 +1351,7 @@ type AtomicSwapDataPushes struct {
 // ExtractAtomicSwapDataPushes returns (nil, nil).  Non-nil errors are returned
 // for unparsable scripts.
 //
-// NOTE: Atomic swaps are not considered standard script types by the dcrd
+// NOTE: Atomic swaps are not considered standard script types by the vhcd
 // mempool policy and should be used with P2SH.  The atomic swap format is also
 // expected to change to use a more secure hash function in the future.
 //

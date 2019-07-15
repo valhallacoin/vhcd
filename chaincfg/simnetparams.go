@@ -8,7 +8,7 @@ package chaincfg
 import (
 	"time"
 
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
 // SimNetParams defines the network parameters for the simulation test network.
@@ -16,7 +16,7 @@ import (
 // private use within a group of individuals doing simulation testing and full
 // integration tests between different applications such as wallets, voting
 // service providers, mining pools, block explorers, and other services that
-// build on Decred.
+// build on Valhalla.
 //
 // The functionality is intended to differ in that the only nodes which are
 // specifically specified are used to create the network rather than following
@@ -98,7 +98,7 @@ var SimNetParams = Params{
 	SLIP0044CoinType: 1,   // SLIP0044, Testnet (all coins)
 	LegacyCoinType:   115, // ASCII for s, for backwards compatibility
 
-	// Decred PoS parameters
+	// Valhalla PoS parameters
 	MinimumStakeDiff:        20000,
 	TicketPoolSize:          64,
 	TicketsPerBlock:         5,
@@ -118,7 +118,7 @@ var SimNetParams = Params{
 	StakeMajorityMultiplier: 3,
 	StakeMajorityDivisor:    4,
 
-	// Decred organization related parameters
+	// Valhalla organization related parameters
 	//
 	// Treasury address is a 3-of-3 P2SH going to a wallet with seed:
 	// aardvark adroitness aardvark adroitness

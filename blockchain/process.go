@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 // BehaviorFlags is a bitmask defining tweaks to the normal behavior when
@@ -105,7 +105,7 @@ func (b *BlockChain) processOrphans(hash *chainhash.Hash, flags BehaviorFlags) e
 // best chain.
 //
 // This function is safe for concurrent access.
-func (b *BlockChain) ProcessBlock(block *dcrutil.Block, flags BehaviorFlags) (int64, bool, error) {
+func (b *BlockChain) ProcessBlock(block *vhcutil.Block, flags BehaviorFlags) (int64, bool, error) {
 	b.chainLock.Lock()
 	defer b.chainLock.Unlock()
 

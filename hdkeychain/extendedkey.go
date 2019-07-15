@@ -20,11 +20,11 @@ import (
 	"math/big"
 
 	"github.com/decred/base58"
-	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrec"
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/chaincfg"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcec"
+	"github.com/valhallacoin/vhcd/vhcec/secp256k1"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 const (
@@ -304,7 +304,7 @@ func (k *ExtendedKey) Child(i uint32) (*ExtendedKey, error) {
 
 	// The fingerprint of the parent for the derived child is the first 4
 	// bytes of the RIPEMD160(BLAKE256(parentPubKey)).
-	parentFP := dcrutil.Hash160(k.pubKeyBytes())[:4]
+	parentFP := vhcutil.Hash160(k.pubKeyBytes())[:4]
 	return newExtendedKey(k.version, childKey, childChainCode, parentFP,
 		k.depth+1, i, isPrivate), nil
 }
@@ -337,12 +337,12 @@ func (k *ExtendedKey) Neuter() (*ExtendedKey, error) {
 		k.depth, k.childNum, false), nil
 }
 
-// ECPubKey converts the extended key to a dcrec public key and returns it.
+// ECPubKey converts the extended key to a vhcec public key and returns it.
 func (k *ExtendedKey) ECPubKey() (*secp256k1.PublicKey, error) {
 	return secp256k1.ParsePubKey(k.pubKeyBytes())
 }
 
-// ECPrivKey converts the extended key to a dcrec private key and returns it.
+// ECPrivKey converts the extended key to a vhcec private key and returns it.
 // As you might imagine this is only possible if the extended key is a private
 // extended key (as determined by the IsPrivate function).  The ErrNotPrivExtKey
 // error will be returned if this function is called on a public extended key.
@@ -355,11 +355,11 @@ func (k *ExtendedKey) ECPrivKey() (*secp256k1.PrivateKey, error) {
 	return privKey, nil
 }
 
-// Address converts the extended key to a standard Decred pay-to-pubkey-hash
+// Address converts the extended key to a standard Valhalla pay-to-pubkey-hash
 // address for the passed network.
-func (k *ExtendedKey) Address(net *chaincfg.Params) (*dcrutil.AddressPubKeyHash, error) {
-	pkHash := dcrutil.Hash160(k.pubKeyBytes())
-	return dcrutil.NewAddressPubKeyHash(pkHash, net, dcrec.STEcdsaSecp256k1)
+func (k *ExtendedKey) Address(net *chaincfg.Params) (*vhcutil.AddressPubKeyHash, error) {
+	pkHash := vhcutil.Hash160(k.pubKeyBytes())
+	return vhcutil.NewAddressPubKeyHash(pkHash, net, vhcec.STEcdsaSecp256k1)
 }
 
 // paddedAppend appends the src byte slice to dst, returning the new slice.
@@ -404,7 +404,7 @@ func (k *ExtendedKey) String() string {
 }
 
 // IsForNet returns whether or not the extended key is associated with the
-// passed Decred network.
+// passed Valhalla network.
 func (k *ExtendedKey) IsForNet(net *chaincfg.Params) bool {
 	return bytes.Equal(k.version, net.HDPrivateKeyID[:]) ||
 		bytes.Equal(k.version, net.HDPublicKeyID[:])

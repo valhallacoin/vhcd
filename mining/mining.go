@@ -8,22 +8,22 @@ package mining
 import (
 	"time"
 
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/chaincfg/chainhash"
-	"github.com/decred/dcrd/dcrutil"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/chaincfg/chainhash"
+	"github.com/valhallacoin/vhcd/vhcutil"
 )
 
 const (
 	// MinHighPriority is the minimum priority value that allows a
 	// transaction to be considered high priority.
-	MinHighPriority = dcrutil.AtomsPerCoin * 144.0 / 250
+	MinHighPriority = vhcutil.AtomsPerCoin * 144.0 / 250
 )
 
 // TxDesc is a descriptor about a transaction in a transaction source along with
 // additional metadata.
 type TxDesc struct {
 	// Tx is the transaction associated with the entry.
-	Tx *dcrutil.Tx
+	Tx *vhcutil.Tx
 
 	// Type is the type of the transaction associated with the entry.
 	Type stake.TxType

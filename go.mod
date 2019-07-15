@@ -1,4 +1,4 @@
-module github.com/decred/dcrd
+module github.com/valhallacoin/vhcd
 
 require (
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412
@@ -10,27 +10,27 @@ require (
 	github.com/dchest/blake256 v1.0.0
 	github.com/dchest/siphash v1.2.1
 	github.com/decred/base58 v1.0.0
-	github.com/decred/dcrd/addrmgr v1.0.2
-	github.com/decred/dcrd/blockchain v1.1.1
-	github.com/decred/dcrd/blockchain/stake v1.1.0
-	github.com/decred/dcrd/certgen v1.0.2
-	github.com/decred/dcrd/chaincfg v1.3.0
-	github.com/decred/dcrd/chaincfg/chainhash v1.0.1
-	github.com/decred/dcrd/connmgr v1.0.2
-	github.com/decred/dcrd/database v1.0.3
-	github.com/decred/dcrd/dcrec v0.0.0-20180801202239-0761de129164
-	github.com/decred/dcrd/dcrec/secp256k1 v1.0.1
-	github.com/decred/dcrd/dcrjson v1.1.0
-	github.com/decred/dcrd/dcrutil v1.2.0
-	github.com/decred/dcrd/fees v1.0.0
-	github.com/decred/dcrd/gcs v1.0.2
-	github.com/decred/dcrd/hdkeychain v1.1.1
-	github.com/decred/dcrd/mempool v1.1.0
-	github.com/decred/dcrd/mining v1.1.0
-	github.com/decred/dcrd/peer v1.1.0
-	github.com/decred/dcrd/rpcclient v1.1.0
-	github.com/decred/dcrd/txscript v1.0.2
-	github.com/decred/dcrd/wire v1.2.0
+	github.com/valhallacoin/vhcd/addrmgr v1.0.2
+	github.com/valhallacoin/vhcd/blockchain v1.1.1
+	github.com/valhallacoin/vhcd/blockchain/stake v1.1.0
+	github.com/valhallacoin/vhcd/certgen v1.0.2
+	github.com/valhallacoin/vhcd/chaincfg v1.3.0
+	github.com/valhallacoin/vhcd/chaincfg/chainhash v1.0.1
+	github.com/valhallacoin/vhcd/connmgr v1.0.2
+	github.com/valhallacoin/vhcd/database v1.0.3
+	github.com/valhallacoin/vhcd/vhcec v0.0.0-20180801202239-0761de129164
+	github.com/valhallacoin/vhcd/vhcec/secp256k1 v1.0.1
+	github.com/valhallacoin/vhcd/vhcjson v1.1.0
+	github.com/valhallacoin/vhcd/vhcutil v1.2.0
+	github.com/valhallacoin/vhcd/fees v1.0.0
+	github.com/valhallacoin/vhcd/gcs v1.0.2
+	github.com/valhallacoin/vhcd/hdkeychain v1.1.1
+	github.com/valhallacoin/vhcd/mempool v1.1.0
+	github.com/valhallacoin/vhcd/mining v1.1.0
+	github.com/valhallacoin/vhcd/peer v1.1.0
+	github.com/valhallacoin/vhcd/rpcclient v1.1.0
+	github.com/valhallacoin/vhcd/txscript v1.0.2
+	github.com/valhallacoin/vhcd/wire v1.2.0
 	github.com/decred/slog v1.0.0
 	github.com/gorilla/websocket v1.2.0
 	github.com/jessevdk/go-flags v1.4.0
@@ -41,27 +41,27 @@ require (
 )
 
 replace (
-	github.com/decred/dcrd/addrmgr => ./addrmgr
-	github.com/decred/dcrd/blockchain => ./blockchain
-	github.com/decred/dcrd/blockchain/stake => ./blockchain/stake
-	github.com/decred/dcrd/certgen => ./certgen
-	github.com/decred/dcrd/chaincfg => ./chaincfg
-	github.com/decred/dcrd/chaincfg/chainhash => ./chaincfg/chainhash
-	github.com/decred/dcrd/connmgr => ./connmgr
-	github.com/decred/dcrd/database => ./database
-	github.com/decred/dcrd/dcrec => ./dcrec
-	github.com/decred/dcrd/dcrec/edwards => ./dcrec/edwards
-	github.com/decred/dcrd/dcrec/secp256k1 => ./dcrec/secp256k1
-	github.com/decred/dcrd/dcrjson => ./dcrjson
-	github.com/decred/dcrd/dcrutil => ./dcrutil
-	github.com/decred/dcrd/fees => ./fees
-	github.com/decred/dcrd/gcs => ./gcs
-	github.com/decred/dcrd/hdkeychain => ./hdkeychain
-	github.com/decred/dcrd/limits => ./limits
-	github.com/decred/dcrd/mempool => ./mempool
-	github.com/decred/dcrd/mining => ./mining
-	github.com/decred/dcrd/peer => ./peer
-	github.com/decred/dcrd/rpcclient => ./rpcclient
-	github.com/decred/dcrd/txscript => ./txscript
-	github.com/decred/dcrd/wire => ./wire
+	github.com/valhallacoin/vhcd/addrmgr => ./addrmgr
+	github.com/valhallacoin/vhcd/blockchain => ./blockchain
+	github.com/valhallacoin/vhcd/blockchain/stake => ./blockchain/stake
+	github.com/valhallacoin/vhcd/certgen => ./certgen
+	github.com/valhallacoin/vhcd/chaincfg => ./chaincfg
+	github.com/valhallacoin/vhcd/chaincfg/chainhash => ./chaincfg/chainhash
+	github.com/valhallacoin/vhcd/connmgr => ./connmgr
+	github.com/valhallacoin/vhcd/database => ./database
+	github.com/valhallacoin/vhcd/vhcec => ./vhcec
+	github.com/valhallacoin/vhcd/vhcec/edwards => ./vhcec/edwards
+	github.com/valhallacoin/vhcd/vhcec/secp256k1 => ./vhcec/secp256k1
+	github.com/valhallacoin/vhcd/vhcjson => ./vhcjson
+	github.com/valhallacoin/vhcd/vhcutil => ./vhcutil
+	github.com/valhallacoin/vhcd/fees => ./fees
+	github.com/valhallacoin/vhcd/gcs => ./gcs
+	github.com/valhallacoin/vhcd/hdkeychain => ./hdkeychain
+	github.com/valhallacoin/vhcd/limits => ./limits
+	github.com/valhallacoin/vhcd/mempool => ./mempool
+	github.com/valhallacoin/vhcd/mining => ./mining
+	github.com/valhallacoin/vhcd/peer => ./peer
+	github.com/valhallacoin/vhcd/rpcclient => ./rpcclient
+	github.com/valhallacoin/vhcd/txscript => ./txscript
+	github.com/valhallacoin/vhcd/wire => ./wire
 )

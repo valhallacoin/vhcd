@@ -8,18 +8,18 @@ package chaincfg
 import (
 	"time"
 
-	"github.com/decred/dcrd/wire"
+	"github.com/valhallacoin/vhcd/wire"
 )
 
-// MainNetParams defines the network parameters for the main Decred network.
+// MainNetParams defines the network parameters for the main Valhalla network.
 var MainNetParams = Params{
 	Name:        "mainnet",
 	Net:         wire.MainNet,
 	DefaultPort: "9108",
 	DNSSeeds: []DNSSeed{
-		{"mainnet-seed.decred.mindcry.org", true},
-		{"mainnet-seed.decred.netpurgatory.com", true},
-		{"mainnet-seed.decred.org", true},
+		{"mainnet-seed.valhallacoin.minvhcy.org", true},
+		{"mainnet-seed.valhallacoin.netpurgatory.com", true},
+		{"mainnet-seed.valhallacoin.org", true},
 	},
 
 	// Chain parameters
@@ -220,10 +220,10 @@ var MainNetParams = Params{
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	SLIP0044CoinType: 42, // SLIP0044, Decred
+	SLIP0044CoinType: 42, // SLIP0044, Valhalla
 	LegacyCoinType:   20, // for backwards compatibility
 
-	// Decred PoS parameters
+	// Valhalla PoS parameters
 	MinimumStakeDiff:        2 * 1e8, // 2 Coin
 	TicketPoolSize:          8192,
 	TicketsPerBlock:         5,
@@ -243,7 +243,7 @@ var MainNetParams = Params{
 	StakeMajorityMultiplier: 3,
 	StakeMajorityDivisor:    4,
 
-	// Decred organization related parameters
+	// Valhalla organization related parameters
 	// Organization address is Dcur2mcGjmENx4DhNqDctW5wJCVyT3Qeqkx
 	OrganizationPkScript:        hexDecode("a914f5916158e3e2c4551c1796708db8367207ed13bb87"),
 	OrganizationPkScriptVersion: 0,

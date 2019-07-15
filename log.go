@@ -10,16 +10,16 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/decred/dcrd/addrmgr"
-	"github.com/decred/dcrd/blockchain"
-	"github.com/decred/dcrd/blockchain/indexers"
-	"github.com/decred/dcrd/blockchain/stake"
-	"github.com/decred/dcrd/connmgr"
-	"github.com/decred/dcrd/database"
-	"github.com/decred/dcrd/fees"
-	"github.com/decred/dcrd/mempool"
-	"github.com/decred/dcrd/peer"
-	"github.com/decred/dcrd/txscript"
+	"github.com/valhallacoin/vhcd/addrmgr"
+	"github.com/valhallacoin/vhcd/blockchain"
+	"github.com/valhallacoin/vhcd/blockchain/indexers"
+	"github.com/valhallacoin/vhcd/blockchain/stake"
+	"github.com/valhallacoin/vhcd/connmgr"
+	"github.com/valhallacoin/vhcd/database"
+	"github.com/valhallacoin/vhcd/fees"
+	"github.com/valhallacoin/vhcd/mempool"
+	"github.com/valhallacoin/vhcd/peer"
+	"github.com/valhallacoin/vhcd/txscript"
 	"github.com/decred/slog"
 	"github.com/jrick/logrotate/rotator"
 )
@@ -60,7 +60,7 @@ var (
 	bmgrLog = backendLog.Logger("BMGR")
 	chanLog = backendLog.Logger("CHAN")
 	cmgrLog = backendLog.Logger("CMGR")
-	dcrdLog = backendLog.Logger("DCRD")
+	vhcdLog = backendLog.Logger("VHCD")
 	discLog = backendLog.Logger("DISC")
 	feesLog = backendLog.Logger("FEES")
 	indxLog = backendLog.Logger("INDX")
@@ -95,7 +95,7 @@ var subsystemLoggers = map[string]slog.Logger{
 	"BMGR": bmgrLog,
 	"CHAN": chanLog,
 	"CMGR": cmgrLog,
-	"DCRD": dcrdLog,
+	"VHCD": vhcdLog,
 	"DISC": discLog,
 	"FEES": feesLog,
 	"INDX": indxLog,
@@ -164,7 +164,7 @@ func directionString(inbound bool) string {
 
 // fatalf logs a string, then cleanly exits.
 func fatalf(str string) {
-	dcrdLog.Errorf("Unable to create profiler: %v", str)
+	vhcdLog.Errorf("Unable to create profiler: %v", str)
 	os.Stdout.Sync()
 	if logRotator != nil {
 		logRotator.Close()
