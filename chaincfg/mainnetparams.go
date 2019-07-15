@@ -73,13 +73,13 @@ var MainNetParams = Params{
 	AcceptNonStdTxs: false,
 
 	// Address encoding magics
-	NetworkAddressPrefix: "D",
-	PubKeyAddrID:         [2]byte{0x13, 0x86}, // starts with Dk
-	PubKeyHashAddrID:     [2]byte{0x07, 0x3f}, // starts with Ds
-	PKHEdwardsAddrID:     [2]byte{0x07, 0x1f}, // starts with De
-	PKHSchnorrAddrID:     [2]byte{0x07, 0x01}, // starts with DS
-	ScriptHashAddrID:     [2]byte{0x07, 0x1a}, // starts with Dc
-	PrivateKeyID:         [2]byte{0x22, 0xde}, // starts with Pm
+	NetworkAddressPrefix: "V",
+	PubKeyAddrID:         [2]byte{0x2c, 0x08}, // starts with Vk
+	PubKeyHashAddrID:     [2]byte{0x10, 0x41}, // starts with Vs
+	PKHEdwardsAddrID:     [2]byte{0x10, 0x21}, // starts with Ve
+	PKHSchnorrAddrID:     [2]byte{0x10, 0x03}, // starts with VS
+	ScriptHashAddrID:     [2]byte{0x10, 0x1b}, // starts with Vc
+	PrivateKeyID:         [2]byte{0x22, 0xdd}, // starts with Pm
 
 	// BIP32 hierarchical deterministic extended key magics
 	HDPrivateKeyID: [4]byte{0x02, 0xfd, 0xa4, 0xe8}, // starts with dprv
