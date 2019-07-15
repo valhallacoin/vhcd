@@ -94,8 +94,8 @@ func TestCalcWantHeight(t *testing.T) {
 		},
 		{
 			name:       "testnet3 params",
-			skip:       chaincfg.TestNet3Params.StakeValidationHeight,
-			interval:   chaincfg.TestNet3Params.StakeVersionInterval,
+			skip:       chaincfg.TestNetParams.StakeValidationHeight,
+			interval:   chaincfg.TestNetParams.StakeVersionInterval,
 			multiplier: 1000,
 		},
 		{

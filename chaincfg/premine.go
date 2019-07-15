@@ -9,8 +9,8 @@ package chaincfg
 // network.
 var BlockOneLedgerMainNet = []*TokenPayout{}
 
-// BlockOneLedgerTestNet3 is the block one output ledger for testnet version 3.
-var BlockOneLedgerTestNet3 = []*TokenPayout{
+// BlockOneLedgerTestNet is the block one output ledger for testnet version 3.
+var BlockOneLedgerTestNet = []*TokenPayout{
 	{"Tsi6gGYNSMmFwi7JoL5Li39SrERZTTMu6vY", 80000 * 1e8},
 	{"TscB7V5RuR1oXpA364DFEsNDuAs8Rk6BHJE", 20000 * 1e8},
 }

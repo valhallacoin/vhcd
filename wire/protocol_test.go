@@ -38,7 +38,7 @@ func TestCurrencyNetStringer(t *testing.T) {
 		want string
 	}{
 		{MainNet, "MainNet"},
-		{TestNet3, "TestNet3"},
+		{TestNet, "TestNet"},
 		{SimNet, "SimNet"},
 		{0xffffffff, "Unknown CurrencyNet (4294967295)"},
 	}

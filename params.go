@@ -32,9 +32,9 @@ var mainNetParams = params{
 }
 
 // testNet3Params contains parameters specific to the test network (version 3)
-// (wire.TestNet3).
+// (wire.TestNet).
 var testNet3Params = params{
-	Params:  &chaincfg.TestNet3Params,
+	Params:  &chaincfg.TestNetParams,
 	rpcPort: "19109",
 }
 
