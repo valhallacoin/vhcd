@@ -29,7 +29,7 @@ var MainNetParams = Params{
 	PowLimitBits:             0x1d00ffff,
 	ReduceMinDifficulty:      false,
 	MinDiffReductionTime:     0, // Does not apply since ReduceMinDifficulty false
-	GenerateSupported:        false,
+	GenerateSupported:        true,
 	MaximumBlockSizes:        []int{393216},
 	MaxTxSize:                393216,
 	TargetTimePerBlock:       time.Minute * 5,
