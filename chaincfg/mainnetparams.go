@@ -87,8 +87,8 @@ var MainNetParams = Params{
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	SLIP0044CoinType: 42, // SLIP0044, Valhalla
-	LegacyCoinType:   20, // for backwards compatibility
+	SLIP0044CoinType: 789, // SLIP0044, Valhalla
+	LegacyCoinType:   20,  // for backwards compatibility
 
 	// Valhalla PoS parameters
 	MinimumStakeDiff:        2 * 1e8, // 2 Coin
