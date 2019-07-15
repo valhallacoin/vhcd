@@ -65,6 +65,12 @@ testrepo () {
       --enable=gosimple \
       --enable=unconvert \
       --enable=ineffassign \
+      --exclude ../go/src/crypto \
+      --exclude ../go/src/internal \
+      --exclude ../go/src/net \
+      --exclude ../go/src/os \
+      --exclude ../go/src/runtime \
+      --exclude ../go/src/syscall \
       ./...
     if [ $? != 0 ]; then
       echo 'gometalinter has some complaints'
