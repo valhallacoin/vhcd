@@ -17,9 +17,9 @@ var MainNetParams = Params{
 	Net:         wire.MainNet,
 	DefaultPort: "9208",
 	DNSSeeds: []DNSSeed{
-		{"mainnet-seed.valhallacoin.minvhcy.org", true},
-		{"mainnet-seed.valhallacoin.netpurgatory.com", true},
-		{"mainnet-seed.valhallacoin.org", true},
+		{"mainnet-seed.valhallacoin.org", false},
+		{"mainnet-seed.valhall.cash", true},
+		// TODO: add .onion seeder
 	},
 
 	// Chain parameters
