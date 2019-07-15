@@ -14,8 +14,8 @@ func TestClientStringer(t *testing.T) {
 		post     bool
 	}
 	tests := []test{
-		{"https://localhost:9109", "localhost:9109", "", true},
-		{"wss://localhost:9109/ws", "localhost:9109", "ws", false},
+		{"https://localhost:9209", "localhost:9209", "", true},
+		{"wss://localhost:9209/ws", "localhost:9209", "ws", false},
 	}
 	for _, test := range tests {
 		cfg := &ConnConfig{

@@ -50,7 +50,7 @@ Application Options:
       --rpclimituser=       Username for limited RPC connections
       --rpclimitpass=       Password for limited RPC connections
       --rpclisten=          Add an interface/port to listen for RPC connections
-                            (default port: 9109, testnet: 19109)
+                            (default port: 9209, testnet: 19209)
       --rpccert=            File containing the certificate file
       --rpckey=             File containing the certificate key
       --rpcmaxclients=      Max number of RPC clients for standard connections

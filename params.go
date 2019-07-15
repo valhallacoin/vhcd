@@ -28,14 +28,14 @@ type params struct {
 // to emulate the full reference implementation RPC API.
 var mainNetParams = params{
 	Params:  &chaincfg.MainNetParams,
-	rpcPort: "9109",
+	rpcPort: "9209",
 }
 
 // testNet3Params contains parameters specific to the test network (version 3)
 // (wire.TestNet).
 var testNet3Params = params{
 	Params:  &chaincfg.TestNetParams,
-	rpcPort: "19109",
+	rpcPort: "19209",
 }
 
 // simNetParams contains parameters specific to the simulation test network

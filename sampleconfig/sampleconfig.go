@@ -194,16 +194,16 @@ const FileContents = `[Application Options]
 ;   rpclisten=0.0.0.0
 ; All ipv6 interfaces on default port:
 ;   rpclisten=::
-; All interfaces on port 9109:
-;   rpclisten=:9109
-; All ipv4 interfaces on port 9109:
-;   rpclisten=0.0.0.0:9109
-; All ipv6 interfaces on port 9109:
-;   rpclisten=[::]:9109
-; Only ipv4 localhost on port 9109:
-;   rpclisten=127.0.0.1:9109
-; Only ipv6 localhost on port 9109:
-;   rpclisten=[::1]:9109
+; All interfaces on port 9209:
+;   rpclisten=:9209
+; All ipv4 interfaces on port 9209:
+;   rpclisten=0.0.0.0:9209
+; All ipv6 interfaces on port 9209:
+;   rpclisten=[::]:9209
+; Only ipv4 localhost on port 9209:
+;   rpclisten=127.0.0.1:9209
+; Only ipv6 localhost on port 9209:
+;   rpclisten=[::1]:9209
 ; Only ipv4 localhost on non-standard port 8337:
 ;   rpclisten=127.0.0.1:8337
 ; All interfaces on non-standard port 8337:
