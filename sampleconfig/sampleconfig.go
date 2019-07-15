@@ -98,9 +98,9 @@ const FileContents = `[Application Options]
 ; You may specify each IP address with or without a port.  The default port will
 ; be added automatically if one is not specified here.
 ; addpeer=192.168.1.1
-; addpeer=10.0.0.2:9108
+; addpeer=10.0.0.2:9208
 ; addpeer=fe80::1
-; addpeer=[fe80::2]:9108
+; addpeer=[fe80::2]:9208
 
 ; Add persistent peers that you ONLY want to connect to as desired.  One peer
 ; per line.  You may specify each IP address with or without a port.  The
@@ -108,9 +108,9 @@ const FileContents = `[Application Options]
 ; NOTE: Specifying this option has other side effects as described above in
 ; the 'addpeer' versus 'connect' summary section.
 ; connect=192.168.1.1
-; connect=10.0.0.2:9108
+; connect=10.0.0.2:9208
 ; connect=fe80::1
-; connect=[fe80::2]:9108
+; connect=[fe80::2]:9208
 
 ; Maximum number of inbound and outbound peers.
 ; maxpeers=8
@@ -147,16 +147,16 @@ const FileContents = `[Application Options]
 ;  listen=0.0.0.0
 ; All ipv6 interfaces on default port:
 ;   listen=::
-; All interfaces on port 9108:
-;   listen=:9108
-; All ipv4 interfaces on port 9108:
-;   listen=0.0.0.0:9108
-; All ipv6 interfaces on port 9108:
-;   listen=[::]:9108
-; Only ipv4 localhost on port 9108:
-;   listen=127.0.0.1:9108
-; Only ipv6 localhost on port 9108:
-;   listen=[::1]:9108
+; All interfaces on port 9208:
+;   listen=:9208
+; All ipv4 interfaces on port 9208:
+;   listen=0.0.0.0:9208
+; All ipv6 interfaces on port 9208:
+;   listen=[::]:9208
+; Only ipv4 localhost on port 9208:
+;   listen=127.0.0.1:9208
+; Only ipv6 localhost on port 9208:
+;   listen=[::1]:9208
 ; Only ipv4 localhost on non-standard port 8336:
 ;   listen=127.0.0.1:8336
 ; All interfaces on non-standard port 8336:

@@ -92,7 +92,7 @@ connected to the internet and meets the minimum recommended specifications, and
 launch it.
 
 Also, make sure your firewall is configured to allow inbound connections to port
-9108.
+9208.
 
 <a name="Installation" />
 

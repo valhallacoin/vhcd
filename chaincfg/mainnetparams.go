@@ -15,7 +15,7 @@ import (
 var MainNetParams = Params{
 	Name:        "mainnet",
 	Net:         wire.MainNet,
-	DefaultPort: "9108",
+	DefaultPort: "9208",
 	DNSSeeds: []DNSSeed{
 		{"mainnet-seed.valhallacoin.minvhcy.org", true},
 		{"mainnet-seed.valhallacoin.netpurgatory.com", true},

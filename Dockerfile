@@ -5,6 +5,6 @@ COPY . .
 
 RUN env GO111MODULE=on go install . ./cmd/...
 
-EXPOSE 9108
+EXPOSE 9208
 
 CMD [ "vhcd" ]

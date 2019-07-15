@@ -11,5 +11,5 @@ configurations.
 
 |Name|Port|
 |----|----|
-|Default Valhalla peer-to-peer port|TCP 9108|
+|Default Valhalla peer-to-peer port|TCP 9208|
 |Default RPC port|TCP 9109|
