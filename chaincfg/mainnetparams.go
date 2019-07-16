@@ -18,7 +18,8 @@ var MainNetParams = Params{
 	DefaultPort: "9208",
 	DNSSeeds: []DNSSeed{
 		{"mainnet-seed.valhallacoin.org", false},
-		{"mainnet-seed.valhall.cash", true},
+		{"mainnet-seed.valhallacoin.net", false},
+		{"mainnet-seed.valhalla.cash", true},
 		// TODO: add .onion seeder
 	},
 

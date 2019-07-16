@@ -19,7 +19,8 @@ var TestNetParams = Params{
 	DefaultPort: "19208",
 	DNSSeeds: []DNSSeed{
 		{"testnet-seed.valhallacoin.org", false},
-		{"testnet-seed.valhall.cash", false},
+		{"testnet-seed.valhallacoin.net", false},
+		{"testnet-seed.valhalla.cash", false},
 		// TODO: add .onion seeder
 	},
 
