@@ -112,8 +112,8 @@ var MainNetParams = Params{
 	StakeMajorityDivisor:    4,
 
 	// Valhalla organization related parameters
-	// Organization address is Dcur2mcGjmENx4DhNqDctW5wJCVyT3Qeqkx
-	OrganizationPkScript:        hexDecode("a914f5916158e3e2c4551c1796708db8367207ed13bb87"),
+	// Organization address is Vsdzq4Y1rXWibELfAQeuc5UEcdSJHoLukF2
+	OrganizationPkScript:        hexDecode("76a914d768f4b146580ba00ecda6093ff253ad4820897488ac"),
 	OrganizationPkScriptVersion: 0,
 	BlockOneLedger:              BlockOneLedgerMainNet,
 }
