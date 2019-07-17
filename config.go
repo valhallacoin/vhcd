@@ -660,9 +660,6 @@ func loadConfig() (*config, []string, error) {
 	// Make list of old versions of testnet directories here since the
 	// network specific DataDir will be used after this.
 	cfg.DataDir = cleanAndExpandPath(cfg.DataDir)
-	var oldTestNets []string
-	oldTestNets = append(oldTestNets, filepath.Join(cfg.DataDir, "testnet"))
-	oldTestNets = append(oldTestNets, filepath.Join(cfg.DataDir, "testnet2"))
 	cfg.DataDir = filepath.Join(cfg.DataDir, activeNetParams.Name)
 	logRotator = nil
 	if !cfg.NoFileLogging {
@@ -1132,15 +1129,6 @@ func loadConfig() (*config, []string, error) {
 		}
 		cfg.onionlookup = func(a string) ([]net.IP, error) {
 			return nil, errors.New("tor has been disabled")
-		}
-	}
-
-	// Warn if old testnet directory is present.
-	for _, oldDir := range oldTestNets {
-		if fileExists(oldDir) {
-			vhcdLog.Warnf("Block chain data from previous testnet"+
-				" found (%v) and can probably be removed.",
-				oldDir)
 		}
 	}
 
