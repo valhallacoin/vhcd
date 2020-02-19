@@ -5,36 +5,58 @@ github.com/agl/ed25519/edwards25519
 github.com/btcsuite/go-socks/socks
 # github.com/btcsuite/goleveldb v1.0.0
 github.com/btcsuite/goleveldb/leveldb
+github.com/btcsuite/goleveldb/leveldb/cache
 github.com/btcsuite/goleveldb/leveldb/comparer
 github.com/btcsuite/goleveldb/leveldb/errors
 github.com/btcsuite/goleveldb/leveldb/filter
 github.com/btcsuite/goleveldb/leveldb/iterator
-github.com/btcsuite/goleveldb/leveldb/opt
-github.com/btcsuite/goleveldb/leveldb/util
-github.com/btcsuite/goleveldb/leveldb/cache
 github.com/btcsuite/goleveldb/leveldb/journal
 github.com/btcsuite/goleveldb/leveldb/memdb
+github.com/btcsuite/goleveldb/leveldb/opt
 github.com/btcsuite/goleveldb/leveldb/storage
 github.com/btcsuite/goleveldb/leveldb/table
+github.com/btcsuite/goleveldb/leveldb/util
 # github.com/btcsuite/snappy-go v1.0.0
 github.com/btcsuite/snappy-go
 # github.com/btcsuite/winsvc v1.0.0
 github.com/btcsuite/winsvc/eventlog
 github.com/btcsuite/winsvc/mgr
-github.com/btcsuite/winsvc/svc
 github.com/btcsuite/winsvc/registry
+github.com/btcsuite/winsvc/svc
 github.com/btcsuite/winsvc/winapi
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
-# github.com/dchest/blake256 v1.0.0
+# github.com/dchest/blake256 v1.1.0
 github.com/dchest/blake256
 # github.com/dchest/siphash v1.2.1
 github.com/dchest/siphash
-# github.com/decred/base58 v1.0.0
+# github.com/decred/base58 v1.0.2
 github.com/decred/base58
+# github.com/decred/dcrd/crypto/blake256 v1.0.0
+github.com/decred/dcrd/crypto/blake256
 # github.com/decred/slog v1.0.0
 github.com/decred/slog
-# github.com/gorilla/websocket v1.4.0
+# github.com/fatih/color v1.7.0
+github.com/fatih/color
+# github.com/frankbraun/codechain v1.0.1
+github.com/frankbraun/codechain/hashchain
+github.com/frankbraun/codechain/hashchain/internal/state
+github.com/frankbraun/codechain/hashchain/linktype
+github.com/frankbraun/codechain/patchfile
+github.com/frankbraun/codechain/sync
+github.com/frankbraun/codechain/tree
+github.com/frankbraun/codechain/util
+github.com/frankbraun/codechain/util/ascii85
+github.com/frankbraun/codechain/util/base64
+github.com/frankbraun/codechain/util/def
+github.com/frankbraun/codechain/util/file
+github.com/frankbraun/codechain/util/hex
+github.com/frankbraun/codechain/util/lockfile
+github.com/frankbraun/codechain/util/log
+github.com/frankbraun/codechain/util/time
+# github.com/frankbraun/go-diff v1.0.0
+github.com/frankbraun/go-diff/diffmatchpatch
+# github.com/gorilla/websocket v1.4.1
 github.com/gorilla/websocket
 # github.com/jessevdk/go-flags v1.4.0
 github.com/jessevdk/go-flags
@@ -42,9 +64,13 @@ github.com/jessevdk/go-flags
 github.com/jrick/bitset
 # github.com/jrick/logrotate v1.0.0
 github.com/jrick/logrotate/rotator
-# golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
+# github.com/mattn/go-colorable v0.1.4
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.11
+github.com/mattn/go-isatty
+# golang.org/x/crypto v0.0.0-20200214034016-1d94cc7ab1c6
 golang.org/x/crypto/ripemd160
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/sys v0.0.0-20190712062909-fae7ac547cb7
+# golang.org/x/sys v0.0.0-20191224085550-c709ea063b76
 golang.org/x/sys/unix
 golang.org/x/sys/windows
