@@ -10,17 +10,22 @@ bindir ?= $(exec_prefix)/bin
 
 .PHONY: all install uninstall clean test update-vendor
 
+vhcd?=$(shell basename $(CURDIR))
+
 all:
-	env GO111MODULE=on go build -v -mod vendor . ./cmd/...
+	env GO111MODULE=on go build -v -mod vendor -o $(vhcd)
+	env GO111MODULE=on go build -v -mod vendor ./cmd/...
 
 install:
-	env GO111MODULE=on GOBIN=$(bindir) go install -mod vendor -v . ./cmd/...
+	mkdir -p $(bindir)
+	cp -f $(vhcd) $(bindir)/$(vhcd)
+	env GO111MODULE=on GOBIN=$(bindir) go install -mod vendor -v ./cmd/...
 
 uninstall:
-	rm -f $(bindir)/vhcd $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcctl
+	rm -f $(bindir)/$(vhcd) $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcchain $(bindir)/vhcctl
 
 clean:
-	rm -f vhcd
+	rm -f $(vhcd)
 
 test:
 	env GO111MODULE=on ./run_tests.sh
