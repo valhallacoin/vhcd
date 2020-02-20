@@ -36,13 +36,16 @@ github.com/decred/base58
 github.com/decred/dcrd/crypto/blake256
 # github.com/decred/slog v1.0.0
 github.com/decred/slog
-# github.com/fatih/color v1.7.0
+# github.com/fatih/color v1.9.0
 github.com/fatih/color
 # github.com/frankbraun/codechain v1.0.1
+github.com/frankbraun/codechain/archive
 github.com/frankbraun/codechain/hashchain
 github.com/frankbraun/codechain/hashchain/internal/state
 github.com/frankbraun/codechain/hashchain/linktype
 github.com/frankbraun/codechain/patchfile
+github.com/frankbraun/codechain/secpkg
+github.com/frankbraun/codechain/ssot
 github.com/frankbraun/codechain/sync
 github.com/frankbraun/codechain/tree
 github.com/frankbraun/codechain/util
@@ -50,7 +53,10 @@ github.com/frankbraun/codechain/util/ascii85
 github.com/frankbraun/codechain/util/base64
 github.com/frankbraun/codechain/util/def
 github.com/frankbraun/codechain/util/file
+github.com/frankbraun/codechain/util/gnumake
 github.com/frankbraun/codechain/util/hex
+github.com/frankbraun/codechain/util/home
+github.com/frankbraun/codechain/util/homedir
 github.com/frankbraun/codechain/util/lockfile
 github.com/frankbraun/codechain/util/log
 github.com/frankbraun/codechain/util/time
@@ -66,11 +72,16 @@ github.com/jrick/bitset
 github.com/jrick/logrotate/rotator
 # github.com/mattn/go-colorable v0.1.4
 github.com/mattn/go-colorable
-# github.com/mattn/go-isatty v0.0.11
+# github.com/mattn/go-isatty v0.0.12
 github.com/mattn/go-isatty
-# golang.org/x/crypto v0.0.0-20200214034016-1d94cc7ab1c6
+# golang.org/x/crypto v0.0.0-20200220183623-bac4c82f6975
+golang.org/x/crypto/internal/subtle
+golang.org/x/crypto/nacl/secretbox
+golang.org/x/crypto/poly1305
 golang.org/x/crypto/ripemd160
+golang.org/x/crypto/salsa20/salsa
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/sys v0.0.0-20191224085550-c709ea063b76
+# golang.org/x/sys v0.0.0-20200219091948-cb0a6d8edb6c
+golang.org/x/sys/cpu
 golang.org/x/sys/unix
 golang.org/x/sys/windows

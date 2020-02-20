@@ -18,6 +18,7 @@ import (
 	"github.com/valhallacoin/vhcd/blockchain/indexers"
 	"github.com/valhallacoin/vhcd/internal/limits"
 	"github.com/valhallacoin/vhcd/internal/version"
+	"github.com/valhallacoin/vhcd/updater"
 )
 
 var cfg *config
@@ -44,6 +45,13 @@ func vhcdMain(serverChan chan<- *server) error {
 			logRotator.Close()
 		}
 	}()
+
+	// Make sure the vhcd is up-to-date.
+	err = updater.UpToDate("vhcd")
+	if err != nil {
+		vhcdLog.Errorf("%v", err)
+		return err
+	}
 
 	// Get a channel that will be closed when a shutdown signal has been
 	// triggered either from an OS signal such as SIGINT (Ctrl+C) or from
