@@ -47,7 +47,7 @@ func vhcdMain(serverChan chan<- *server) error {
 	}()
 
 	// Make sure the vhcd is up-to-date.
-	err = updater.UpToDate("vhcd")
+	err = updater.UpToDate()
 	if err != nil {
 		vhcdLog.Errorf("%v", err)
 		return err
