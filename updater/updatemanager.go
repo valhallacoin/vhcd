@@ -36,6 +36,7 @@ type UpdateManager struct {
 	ticker                 *time.Ticker
 	packageName            string
 	needsUpdate            bool
+	updateTime             time.Time
 }
 
 func init() {
@@ -150,8 +151,8 @@ func (um *UpdateManager) triggerUpdate() error {
 	}
 
 	timeToUpdate := time.Duration(rand.Int63n(int64(maxTimeToUpdate)))
-	log.Warnf("Exiting for update at %s",
-		time.Now().UTC().Add(timeToUpdate).Format(time.RFC3339))
+	um.updateTime = time.Now().UTC().Add(timeToUpdate)
+	log.Warnf("Exiting for update at %s", um.updateTime.Format(time.RFC3339))
 
 	go func() {
 		time.Sleep(timeToUpdate)
@@ -171,6 +172,8 @@ out:
 				if err := um.checkUpdate(); err != nil {
 					um.stop(err)
 				}
+			} else {
+				log.Warnf("Exiting for update at %s", um.updateTime.Format(time.RFC3339))
 			}
 		}
 	}
