@@ -6,6 +6,7 @@ package updater
 
 import (
 	"context"
+	"math/rand"
 	"net"
 	"os"
 	"path/filepath"
@@ -19,8 +20,10 @@ import (
 )
 
 const (
-	tickerDuration = 10 * time.Second // TODO
-	timeout        = 5 * time.Second
+	tickerDuration     = 5 * time.Minute
+	checkUpdateTimeout = 5 * time.Second
+	maxTimeToUpdate    = 1 * time.Hour // TODO, change:
+	// maxTimeToUpdate    = 7 * 24 * time.Hour
 )
 
 // UpdateManager provides a concurrency safe update manager.
@@ -32,6 +35,11 @@ type UpdateManager struct {
 	quit                   chan struct{}
 	ticker                 *time.Ticker
 	packageName            string
+	needsUpdate            bool
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }
 
 func NewUpdateManager() (*UpdateManager, error) {
@@ -107,10 +115,14 @@ func (um *UpdateManager) checkUpdate() error {
 		if err != nil {
 			return err
 		}
+		err = os.RemoveAll("." + um.packageName + "-needs-update")
+		if err != nil {
+			return err
+		}
 	}
 
 	// Check for update.
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), checkUpdateTimeout)
 	defer cancel()
 	if err := upToDateIfInstalled(ctx, um.packageName); err != nil {
 		if err, ok := err.(net.Error); ok && err.Timeout() {
@@ -118,9 +130,33 @@ func (um *UpdateManager) checkUpdate() error {
 				um.packageName, err)
 			return nil
 		}
+		if err == ErrNeedsUpdate {
+			return um.triggerUpdate()
+		}
 		return err
 	}
 	log.Info("No update needed")
+	return nil
+}
+
+func (um *UpdateManager) triggerUpdate() error {
+	um.needsUpdate = true
+	f, err := os.Create("." + um.packageName + "-needs-update")
+	if err != nil {
+		return err
+	}
+	if err := f.Close(); err != nil {
+		return err
+	}
+
+	timeToUpdate := time.Duration(rand.Int63n(int64(maxTimeToUpdate)))
+	log.Warnf("Exiting for update at %s",
+		time.Now().UTC().Add(timeToUpdate).Format(time.RFC3339))
+
+	go func() {
+		time.Sleep(timeToUpdate)
+		um.stop(ErrNeedsUpdate)
+	}()
 	return nil
 }
 
@@ -131,8 +167,10 @@ out:
 		case <-um.quit:
 			break out
 		case <-um.ticker.C:
-			if err := um.checkUpdate(); err != nil {
-				um.stop(err)
+			if !um.needsUpdate {
+				if err := um.checkUpdate(); err != nil {
+					um.stop(err)
+				}
 			}
 		}
 	}
