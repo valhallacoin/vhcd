@@ -4,7 +4,7 @@ while true
 do
   secpkg update secpkg
   secpkg update vhcd-mainnet
-  vhcd "$@"
+  vhcd-mainnet "$@"
   if [ -f .vhcd-mainnet-needs-update ]
   then
     rm -f .vhcd-mainnet-needs-update

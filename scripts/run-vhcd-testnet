@@ -4,7 +4,7 @@ while true
 do
   secpkg update secpkg || true
   secpkg update vhcd-testnet
-  vhcd "$@"
+  vhcd-testnet "$@"
   if [ -f .vhcd-testnet-needs-update ]
   then
     rm -f .vhcd-testnet-needs-update
