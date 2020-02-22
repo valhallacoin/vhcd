@@ -1,0 +1,59 @@
+codechain patchfile version 2
+treehash de7398f7ea88d34ff4cf7c20a709ea6ef1c93af5926a7a0f81fae5fba4067d72
+- f 92e9b3be71984557998de94c5981d9766e06e155e87400981cd52b5dadcfe451 .testnet.secpkg
++ f fe3286e72a119f2e4ce78ac4849f0e0bcc7a7af85c6c40e094a61d5f4c731470 .testnet.secpkg
+dmppatch 5
+@@ -25,86 +25,86 @@
+ t%22,%0A
+-  %22Head%22: %22039da38b8ff489908f9d796519a1a8608191fdfb47d791b45ed7c45beff82e91%22,%0A
++  %22Head%22: %225d455365245982f156e73adb6e22e3a0d8d8c928827275210ace70ecece4d5b6%22,%0A
+   %22D
+- f b7a27f1b79c71eef0b4b3f89051d4ddb1b73073591873cb012073cd0d7debd39 README.md
++ f d03782c0397ee984e26967f1d4ac0cfb9b762f4d37734a9765f16c2a18be48c3 README.md
+dmppatch 16
+@@ -3622,170 +3622,95 @@
+ ull%0A
+-validation mode, such as %5Bvhcwallet (CLI)%5D(https://github.com/valhallacoin/vhcwallet)%0Aand %5BValhallaiton (GUI)%5D(https://github.com/valhallacoin/valhallacoiniton).%0A
++validation mode, such as %5Bvhcwallet (CLI)%5D(https://github.com/valhallacoin/vhcwallet).%0A
+ %0A## 
+@@ -4420,2958 +4420,755 @@
+ ng%0A%0A
+-### Binaries (Windows/Linux/macOS)%0A%0ABinary releases are provided for common operating systems and architectures:%0A%0Ahttps://valhallacoin.org/downloads%0A%0A### Build from source (all platforms)%0A%0ABuilding or updating from source requires the following build dependencies:%0A%0A- **Go 1.10 or 1.11**%0A%0A  Installation instructions can be found here: https://golang.org/doc/install.%0A  It is recommended to add %60$GOPATH/bin%60 to your %60PATH%60 at this point.%0A%0A- **Vgo (Go 1.10 only)**%0A%0A  The %60GO111MODULE%60 experiment is used to manage project dependencies and%0A  provide reproducible builds.  The module experiment is provided by the Go 1.11%0A  toolchain, but the Go 1.10 toolchain does not provide any module support.  To%0A  perform module-aware builds with Go 1.10,%0A  %5Bvgo%5D(https://godoc.org/golang.org/x/vgo) (a drop-in replacement for the go%0A  command) must be used instead.%0A%0A- **Git**%0A%0A  Installation instructions can be found at https://git-scm.com or%0A  https://gitforwindows.org.%0A%0ATo build and install from a checked-out repo, run %60go install . ./cmd/...%60 in%0Athe repo's root directory.  Some notes:%0A%0A* Set the %60GO111MODULE=on%60 environment variable if using Go 1.11 and building%0A  from within %60GOPATH%60.%0A%0A* Replace %60go%60 with %60vgo%60 when using Go 1.10.%0A%0A* The %60vhcd%60 executable will be installed to %60$GOPATH/bin%60.  %60GOPATH%60%0A  defaults to %60$HOME/go%60 (or %60%25USERPROFILE%25%5Cgo%60 on Windows) if unset.%0A%0A%0A### Example of obtaining and building from source on Windows 10 with Go 1.11:%0A%0A%60%60%60PowerShell%0APS%3E git clone https://github.com/valhallacoin/vhcd $env:USERPROFILE%5Csrc%5Cvhcd%0APS%3E cd $env:USERPROFILE%5Csrc%5Cvhcd%0APS%3E go install . .%5Ccmd%5C...%0APS%3E & %22$(go env GOPATH)%5Cbin%5Cvhcd%22 -V%0A%0A%60%60%60%0A%0A### Example of obtaining and building from source on Linux with Go 1.10:%0A%0A%60%60%60bash%0A$ git clone https://github.com/valhallacoin/vhcd ~/src/vhcd%0A$ cd ~/src/vhcd%0A$ vgo install . ./cmd/...%0A$ $(vgo env GOPATH)/bin/vhcd -V%0A%60%60%60%0A%0A## Docker%0A%0A### Running vhcd%0A%0AYou can run a valhallacoin node from inside a docker container.  To build the image%0Ayourself, use the following command:%0A%0A%60%60%60%0Adocker build -t valhallacoin/vhcd .%0A%60%60%60%0A%0AOr you can create an alpine based image (requires Docker 17.05 or higher):%0A%0A%60%60%60%0Adocker build -t valhallacoin/vhcd:alpine -f Dockerfile.alpine .%0A%60%60%60%0A%0AYou can then run the image using:%0A%0A%60%60%60%0Adocker run valhallacoin/vhcd%0A%60%60%60%0A%0AYou may wish to use an external volume to customise your config and persist the%0Adata in an external volume:%0A%0A%60%60%60%0Adocker run --rm -v /home/user/vhcdata:/root/.vhcd/data valhallacoin/vhcd%0A%60%60%60%0A%0AFor a minimal image, you can use the valhallacoin/vhcd:alpine tag.  This is typically%0Aa more secure option while also being a much smaller image.%0A
++Building from source requires the following steps:%0A
+ %0A
+-You can run vhcctl from inside the image.  For example, run an image (mounting%0Ayour data from externally) with:%0A%0A%60%60%60%0Adocker run --rm -ti --name=vhcd-1 -v /home/user/.vhcd:/root/.vhcd %5C%0A  valhallacoin/vhcd:alpine%0A%60%60%60%0A%0AAnd then run vhcctl commands against it.  For example:%0A
++- First you have to install Codechain, see %5BBootstrapping%0A  Codechain%5D(https://github.com/frankbraun/codechain/blob/master/doc/bootstrapping.md). Afterwards you should have %60secpkg%60 in your %60$PATH%60.%0A- To install %60vhcd-mainnet%60: %60secpkg install .testnet.secpkg%60%0A  (the %60.testnet.secpkg%60 file is in this repository)%0A- To install %60vhcd-testnet%60: %60secpkg install .mainnet.secpkg%60%0A  (the %60.mainnet.secpkg%60 file is in this repository)%0A- To run and automatically update %60vhcd-testnet%60 call%0A  %60run-vhcd-testnet --testnet%60%0A- To run and automatically update %60vhcd-mainnet%60 call%0A  %60run-vhcd-mainnet%60%0A
+ %0A
+-%60%60%60%0Adocker exec -ti vhcd-1 vhcctl getbestblock%0A%60%60%60%0A
++You should verify the %60Head%60 contained in %60.testnet.secpkg%60 and in%0A%60.mainnet.secpkg%60 from other sources.%0A
+ %0A###
+- f c65f52ac8129caed2aec6f8527b10228b2708bb3a046215702a2084c141fe76c chaincfg/testnetparams.go
++ f 56aa297763cb41e38e90b5f182457aac9df35d0ee43c0e7ef78a0477f30fc02d chaincfg/testnetparams.go
+dmppatch 10
+@@ -532,52 +532,54 @@
+ ed%7B%0A
+-%09%09%7B%22testnet-seed.valhallacoin.org%22, false%7D,%0A
++%09%09//%7B%22testnet-seed.valhallacoin.org%22, false%7D,%0A
+ %09%09%7B%22
+@@ -622,203 +622,51 @@
+ e%7D,%0A
+-%09%09%7B%22testnet-seed.valhalla.cash%22, false%7D,%0A%09%09%7B%22d4snyonmvnxyubznqq4e2d3jzge2dphr7n4ikc253yosq7ebilvdzsid.onion%22, false%7D,%0A%09%09%7B%22qsell64hbqzldcc2bznxjdx2avsbs7h2xrpy63fnpihlfgoapjyeftyd.onion%22, false%7D,%0A
++%09%09//%7B%22testnet-seed.valhalla.cash%22, false%7D,%0A
+ %09%7D,%0A
+- x ba2685aa97638b93e57d317b7920b0d187697c7584a47433e9f9567f7843f1b5 scripts/run-vhcd-mainnet
++ x 3d6de46f55983011c417cba5406dfedc9d40dbfafb95506f9e4d60bec23b96db scripts/run-vhcd-mainnet
+dmppatch 5
+@@ -78,20 +78,28 @@
+ net%0A
+-  vhcd %22$@%22%0A
++  vhcd-mainnet %22$@%22%0A
+   if
+- x f306ceb19150479e892412a01c8ccdbe14b29b87984909c29f1944117e603563 scripts/run-vhcd-testnet
++ x 57215f64ed9b36addd3dea9875037cf51a27df880bacdaf96d1faa6375b654ba scripts/run-vhcd-testnet
+dmppatch 5
+@@ -86,20 +86,28 @@
+ net%0A
+-  vhcd %22$@%22%0A
++  vhcd-testnet %22$@%22%0A
+   if
+treehash 29954e2b3ea62eda591530b0f0370a17a4fb83445eab6b26e4286544f45681df
