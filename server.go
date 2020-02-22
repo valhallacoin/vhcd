@@ -36,6 +36,7 @@ import (
 	"github.com/valhallacoin/vhcd/mining"
 	"github.com/valhallacoin/vhcd/peer"
 	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/updater"
 	"github.com/valhallacoin/vhcd/vhcutil"
 	"github.com/valhallacoin/vhcd/wire"
 )
@@ -188,6 +189,7 @@ type server struct {
 	sigCache             *txscript.SigCache
 	rpcServer            *rpcServer
 	blockManager         *blockManager
+	updateManager        *updater.UpdateManager
 	txMemPool            *mempool.TxPool
 	feeEstimator         *fees.Estimator
 	cpuMiner             *CPUMiner
@@ -1724,6 +1726,7 @@ func (s *server) peerHandler() {
 	// in this handler.
 	s.addrManager.Start()
 	s.blockManager.Start()
+	s.updateManager.Start()
 
 	srvrLog.Tracef("Starting peer handler")
 
@@ -1790,6 +1793,7 @@ out:
 	}
 
 	s.connManager.Stop()
+	s.updateManager.Stop()
 	s.blockManager.Stop()
 	s.addrManager.Stop()
 
@@ -2540,6 +2544,12 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 	}
 	s.blockManager = bm
 
+	um, err := updater.NewUpdateManager()
+	if err != nil {
+		return nil, err
+	}
+	s.updateManager = um
+
 	txC := mempool.Config{
 		Policy: mempool.Policy{
 			MaxTxVersion:         2,
@@ -2692,6 +2702,12 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 		// Signal process shutdown when the RPC server requests it.
 		go func() {
 			<-s.rpcServer.RequestedProcessShutdown()
+			shutdownRequestChannel <- struct{}{}
+		}()
+
+		// Signal process shutdown when the updater requests it.
+		go func() {
+			<-s.updateManager.RequestedProcessShutdown()
 			shutdownRequestChannel <- struct{}{}
 		}()
 	}

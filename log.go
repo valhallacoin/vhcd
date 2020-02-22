@@ -22,6 +22,7 @@ import (
 	"github.com/valhallacoin/vhcd/mempool"
 	"github.com/valhallacoin/vhcd/peer"
 	"github.com/valhallacoin/vhcd/txscript"
+	"github.com/valhallacoin/vhcd/updater"
 )
 
 // logWriter implements an io.Writer that outputs to both standard output and
@@ -71,6 +72,7 @@ var (
 	srvrLog = backendLog.Logger("SRVR")
 	stkeLog = backendLog.Logger("STKE")
 	txmpLog = backendLog.Logger("TXMP")
+	updrLog = backendLog.Logger("UPDR")
 )
 
 // Initialize package-global logger variables.
@@ -85,6 +87,7 @@ func init() {
 	peer.UseLogger(peerLog)
 	stake.UseLogger(stkeLog)
 	txscript.UseLogger(scrpLog)
+	updater.UseLogger(updrLog)
 }
 
 // subsystemLoggers maps each subsystem identifier to its associated logger.
@@ -106,6 +109,7 @@ var subsystemLoggers = map[string]slog.Logger{
 	"SRVR": srvrLog,
 	"STKE": stkeLog,
 	"TXMP": txmpLog,
+	"UPDR": updrLog,
 }
 
 // initLogRotator initializes the logging rotater to write logs to logFile and

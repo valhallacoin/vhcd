@@ -5,9 +5,6 @@
 package updater
 
 import (
-	"os"
-	"path/filepath"
-
 	"github.com/frankbraun/codechain/secpkg"
 )
 
@@ -18,10 +15,9 @@ import (
 //
 // UpToDate times out after a while if DNS cannot be queried and return nil.
 func UpToDate() error {
-	exec, err := os.Executable()
+	name, err := getPackageName()
 	if err != nil {
 		return err
 	}
-	name := filepath.Base(exec)
 	return secpkg.UpToDate(name)
 }
