@@ -72,8 +72,7 @@ censorship.
 In terms of individual benefits, since vhcd fully validates every block and
 transaction, it provides the highest security and privacy possible when used in
 conjunction with a wallet that also supports directly connecting to it in full
-validation mode, such as [vhcwallet (CLI)](https://github.com/valhallacoin/vhcwallet)
-and [Valhallaiton (GUI)](https://github.com/valhallacoin/valhallacoiniton).
+validation mode, such as [vhcwallet (CLI)](https://github.com/valhallacoin/vhcwallet).
 
 ## Minimum Recommended Specifications (vhcd only)
 
