@@ -18,11 +18,9 @@ var TestNetParams = Params{
 	Net:         wire.TestNet,
 	DefaultPort: "19208",
 	DNSSeeds: []DNSSeed{
-		{"testnet-seed.valhallacoin.org", false},
+		//{"testnet-seed.valhallacoin.org", false},
 		{"testnet-seed.valhallacoin.net", false},
-		{"testnet-seed.valhalla.cash", false},
-		{"d4snyonmvnxyubznqq4e2d3jzge2dphr7n4ikc253yosq7ebilvdzsid.onion", false},
-		{"qsell64hbqzldcc2bznxjdx2avsbs7h2xrpy63fnpihlfgoapjyeftyd.onion", false},
+		//{"testnet-seed.valhalla.cash", false},
 	},
 
 	// Chain parameters
