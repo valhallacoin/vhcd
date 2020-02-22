@@ -1,0 +1,397 @@
+codechain patchfile version 2
+treehash 7ba641a46373fadde8c73c7e3061f95e24116c2d7e12c1097318f1189c7d1f4e
++ f 657a2f95fae6510fca1291f0358baff429cce1ccf846c150666629de74e0a093 .gitattributes
+utf8file 3
+.codechain-mainnet/*/* binary
+.codechain-testnet/*/* binary
+
+- f 1cc15e07b43617a2634131c13a18ee22e8dc668d139bd73f3222bbe136234f9e .testnet.secpkg
++ f cef835dae8ba0a47b6fd196099a6865d9142ab00e1ce9e22e4f12bc9bd2f9cc9 .testnet.secpkg
+dmppatch 5
+@@ -25,86 +25,86 @@
+ t%22,%0A
+-  %22Head%22: %22becbed38e28a6cdd3420e280d1c328daf4c26f9c104c1bcc8b751d33d846b4e3%22,%0A
++  %22Head%22: %22bfe4ef8bcca94c6a7d22a266b62ccca437a9dbd1a19d7670051d86448631a733%22,%0A
+   %22D
+- f cb46d74abaa9b7e3978d337991af734f1fb8fb28bdac9a9431fcee6d81c38b24 Makefile
++ f 43e96a36190751aad30a0ab7f98a725a12ebe8e72ff8813497e1ebe9923ec034 Makefile
+dmppatch 8
+@@ -722,16 +722,92 @@
+ cmd/...%0A
++ifneq ($(vhcd),vhcd)%0A%09cp -f scripts/run-$(vhcd) $(bindir)/run-$(vhcd)%0Aendif%0A
+ %0Auninsta
+@@ -1024,16 +1024,72 @@
+ /vhcctl%0A
++ifneq ($(vhcd),vhcd)%0A%09rm -f $(bindir)/run-$(vhcd)%0Aendif%0A
+ %0Aclean:%0A
+- f 3b1c45e3dd78227dab55a0d0eeceacb0f3683d70cffe65d391a8fa1d601301a8 log.go
++ f 7359582b25d040cd1d7a12d20bf590b01e2619de3fcc3798dcc2331072d3fb31 log.go
+dmppatch 16
+@@ -731,16 +731,56 @@
+ script%22%0A
++%09%22github.com/valhallacoin/vhcd/updater%22%0A
+ )%0A%0A// lo
+@@ -2518,16 +2518,53 @@
+ %22TXMP%22)%0A
++%09updrLog = backendLog.Logger(%22UPDR%22)%0A
+ )%0A%0A// In
+@@ -2897,16 +2897,44 @@
+ crpLog)%0A
++%09updater.UseLogger(updrLog)%0A
+ %7D%0A%0A// su
+@@ -3358,16 +3358,34 @@
+ xmpLog,%0A
++%09%22UPDR%22: updrLog,%0A
+ %7D%0A%0A// in
++ x ba2685aa97638b93e57d317b7920b0d187697c7584a47433e9f9567f7843f1b5 scripts/run-vhcd-mainnet
+utf8file 15
+#!/bin/sh -ex
+
+while true
+do
+  secpkg update secpkg
+  secpkg update vhcd-mainnet
+  vhcd "$@"
+  if [ -f .vhcd-mainnet-needs-update ]
+  then
+    rm -f .vhcd-mainnet-needs-update
+  else
+    exit $?
+  fi
+done
+
++ x f306ceb19150479e892412a01c8ccdbe14b29b87984909c29f1944117e603563 scripts/run-vhcd-testnet
+utf8file 15
+#!/bin/sh -ex
+
+while true
+do
+  secpkg update secpkg || true
+  secpkg update vhcd-testnet
+  vhcd "$@"
+  if [ -f .vhcd-testnet-needs-update ]
+  then
+    rm -f .vhcd-testnet-needs-update
+  else
+    exit $?
+  fi
+done
+
+- f 9626f164884c81018cd6b777feffc57acf148f1f66c065761c4c7f6b40460ded server.go
++ f dc2ed70546d423280a09f201490d4a8cf10f8a4238272a3a167901bf691d4bc9 server.go
+dmppatch 24
+@@ -1035,16 +1035,56 @@
+ script%22%0A
++%09%22github.com/valhallacoin/vhcd/updater%22%0A
+ %09%22github
+@@ -6021,16 +6021,61 @@
+ Manager%0A
++%09updateManager        *updater.UpdateManager%0A
+ %09txMemPo
+@@ -56826,16 +56826,41 @@
+ Start()%0A
++%09s.updateManager.Start()%0A
+ %0A%09srvrLo
+@@ -58705,16 +58705,40 @@
+ .Stop()%0A
++%09s.updateManager.Stop()%0A
+ %09s.block
+@@ -80760,16 +80760,116 @@
+ r = bm%0A%0A
++%09um, err := updater.NewUpdateManager()%0A%09if err != nil %7B%0A%09%09return nil, err%0A%09%7D%0A%09s.updateManager = um%0A%0A
+ %09txC := 
+@@ -85946,16 +85946,184 @@
+ tdown()%0A
++%09%09%09shutdownRequestChannel %3C- struct%7B%7D%7B%7D%0A%09%09%7D()%0A%0A%09%09// Signal process shutdown when the updater requests it.%0A%09%09go func() %7B%0A%09%09%09%3C-s.updateManager.RequestedProcessShutdown()%0A
+ %09%09%09shutd
++ f 0eceb7740ab6527184103a1a53d88f994fbe6f3c28facaa8c2d54af1f0732334 updater/errors.go
+utf8file 15
+// Copyright (c) 2013-2016 The btcsuite developers
+// Copyright (c) 2016-2018 The Decred developers
+// Copyright (c) 2020 The Valhalla Coin developers
+// Use of this source code is governed by an ISC
+// license that can be found in the LICENSE file.
+
+package updater
+
+import (
+	"errors"
+)
+
+// ErrNeedsUpdate is returned if vhcd needs an update.
+var ErrNeedsUpdate = errors.New("updater: vhcd needs an update")
+
++ f 9b71b6f38c869c8fe8130748396fea396d90c82f333fb27c59e3c54c1323f0a4 updater/log.go
+utf8file 35
+// Copyright (c) 2013-2016 The btcsuite developers
+// Copyright (c) 2016-2018 The Decred developers
+// Copyright (c) 2020 The Valhalla Coin developers
+// Use of this source code is governed by an ISC
+// license that can be found in the LICENSE file.
+
+package updater
+
+import (
+	"github.com/decred/slog"
+)
+
+// log is a logger that is initialized with no output filters.  This
+// means the package will not perform any logging by default until the caller
+// requests it.
+var log slog.Logger
+
+// The default amount of logging is none.
+func init() {
+	DisableLog()
+}
+
+// DisableLog disables all library log output.  Logging output is disabled
+// by default until either UseLogger or SetLogWriter are called.
+func DisableLog() {
+	log = slog.Disabled
+}
+
+// UseLogger uses a specified Logger to output package logging info.
+// This should be used in preference to SetLogWriter if the caller is also
+// using slog.
+func UseLogger(logger slog.Logger) {
+	log = logger
+}
+
++ f 59e463dc0aa499cc9f4b7621f8e6eab19424133fc117b394646035a3d4593aee updater/updatemanager.go
+utf8file 197
+// Copyright (c) 2020 The Valhalla Coin developers
+// Use of this source code is governed by an ISC
+// license that can be found in the LICENSE file.
+
+package updater
+
+import (
+	"context"
+	"math/rand"
+	"net"
+	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+	"sync/atomic"
+	"time"
+
+	"github.com/frankbraun/codechain/secpkg"
+	"github.com/frankbraun/codechain/util/homedir"
+)
+
+const (
+	tickerDuration     = 5 * time.Minute
+	checkUpdateTimeout = 5 * time.Second
+	maxTimeToUpdate    = 1 * time.Hour // TODO, change:
+	// maxTimeToUpdate    = 7 * 24 * time.Hour
+)
+
+// UpdateManager provides a concurrency safe update manager.
+type UpdateManager struct {
+	started                int32
+	shutdown               int32
+	wg                     sync.WaitGroup
+	requestProcessShutdown chan struct{}
+	quit                   chan struct{}
+	ticker                 *time.Ticker
+	packageName            string
+	needsUpdate            bool
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+func NewUpdateManager() (*UpdateManager, error) {
+	um := UpdateManager{
+		requestProcessShutdown: make(chan struct{}),
+		quit:                   make(chan struct{}),
+		ticker:                 time.NewTicker(tickerDuration),
+	}
+	return &um, nil
+}
+
+// Start begins the core update handler.
+func (u *UpdateManager) Start() {
+	// Already started?
+	if atomic.AddInt32(&u.started, 1) != 1 {
+		return
+	}
+
+	log.Trace("Starting update manager")
+	u.wg.Add(1)
+	go u.updateHandler()
+}
+
+// Stop gracefully shuts down the update manager by stopping all asynchronous
+// handlers and waiting for them to finish.
+func (u *UpdateManager) Stop() error {
+	if atomic.AddInt32(&u.shutdown, 1) != 1 {
+		log.Warnf("Update manager is already in the process of " +
+			"shutting down")
+		return nil
+	}
+
+	log.Infof("Update manager shutting down")
+	close(u.quit)
+	u.wg.Wait()
+	u.ticker.Stop()
+	return nil
+}
+
+// taken from github.com/frankbraun/codechain/secpkg/update.go
+func upToDateIfInstalled(ctx context.Context, name string) error {
+	needsUpdate, err := secpkg.CheckUpdate(ctx, name)
+	if err != nil {
+		if err == secpkg.ErrNotInstalled {
+			log.Warnf("Package '%s' not installed via `secpkg install`", name)
+			return nil
+		}
+		return err
+	}
+	// determine path of currently running executable
+	path, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	localDir := filepath.Join(homedir.SecPkg(), "local")
+	// issue warning if we don't actually run the installed executable
+	if !strings.HasPrefix(path, localDir) {
+		log.Warnf("Package '%s' installed via `secpkg install`, but running different executable: %s",
+			name, path)
+	}
+	// now report update needs, if necessary
+	if needsUpdate {
+		return ErrNeedsUpdate
+	}
+	return nil
+}
+
+func (um *UpdateManager) checkUpdate() error {
+	// Determine package name once.
+	if um.packageName == "" {
+		var err error
+		um.packageName, err = getPackageName()
+		if err != nil {
+			return err
+		}
+		err = os.RemoveAll("." + um.packageName + "-needs-update")
+		if err != nil {
+			return err
+		}
+	}
+
+	// Check for update.
+	ctx, cancel := context.WithTimeout(context.Background(), checkUpdateTimeout)
+	defer cancel()
+	if err := upToDateIfInstalled(ctx, um.packageName); err != nil {
+		if err, ok := err.(net.Error); ok && err.Timeout() {
+			log.Warnf("Update check for package '%s' timed out: %s",
+				um.packageName, err)
+			return nil
+		}
+		if err == ErrNeedsUpdate {
+			return um.triggerUpdate()
+		}
+		return err
+	}
+	log.Info("No update needed")
+	return nil
+}
+
+func (um *UpdateManager) triggerUpdate() error {
+	um.needsUpdate = true
+	f, err := os.Create("." + um.packageName + "-needs-update")
+	if err != nil {
+		return err
+	}
+	if err := f.Close(); err != nil {
+		return err
+	}
+
+	timeToUpdate := time.Duration(rand.Int63n(int64(maxTimeToUpdate)))
+	log.Warnf("Exiting for update at %s",
+		time.Now().UTC().Add(timeToUpdate).Format(time.RFC3339))
+
+	go func() {
+		time.Sleep(timeToUpdate)
+		um.stop(ErrNeedsUpdate)
+	}()
+	return nil
+}
+
+func (um *UpdateManager) updateHandler() {
+out:
+	for {
+		select {
+		case <-um.quit:
+			break out
+		case <-um.ticker.C:
+			if !um.needsUpdate {
+				if err := um.checkUpdate(); err != nil {
+					um.stop(err)
+				}
+			}
+		}
+	}
+
+	um.wg.Done()
+	log.Trace("Update handler done")
+}
+
+// RequestedProcessShutdown returns a channel that is sent to when the updater
+// client requests the process to shutdown.  If the request can
+// not be read immediately, it is dropped.
+func (um *UpdateManager) RequestedProcessShutdown() <-chan struct{} {
+	return um.requestProcessShutdown
+}
+
+// handleStop implements the stop command.
+func (um *UpdateManager) stop(err error) {
+	select {
+	case um.requestProcessShutdown <- struct{}{}:
+		log.Error(err)
+	default:
+	}
+}
+
+- f dd777d0cb0f8d355b24fc82f0c3f44b5b525dfbdfffa18f30504852f4ab30912 updater/updater.go
++ f 0b291254a33ec9295e00c6af1214da2f4bb3b4a89c51874798d28ea908f09cc7 updater/updater.go
+dmppatch 13
+@@ -174,32 +174,8 @@
+ t (%0A
+-%09%22os%22%0A%09%22path/filepath%22%0A%0A
+ %09%22gi
+@@ -564,38 +564,39 @@
+ r %7B%0A
+-%09exec, err := os.Executable()%0A
++%09name, err := getPackageName()%0A
+ %09if 
+@@ -628,37 +628,8 @@
+ %0A%09%7D%0A
+-%09name := filepath.Base(exec)%0A
+ %09ret
++ f 7f5b70e05342d4ac8305b83e2243028a179d3adfd21439fceb06e053c174ec7e updater/util.go
+utf8file 19
+// Copyright (c) 2020 The Valhalla Coin developers
+// Use of this source code is governed by an ISC
+// license that can be found in the LICENSE file.
+
+package updater
+
+import (
+	"os"
+	"path/filepath"
+)
+
+func getPackageName() (string, error) {
+	exec, err := os.Executable()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Base(exec), nil
+}
+
+treehash 2072327b4f29f250f248031845bd1fae52b73f7435a2dabad4de1c545bcc7f1b
