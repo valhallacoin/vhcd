@@ -113,53 +113,6 @@ Building from source requires the following steps:
 You should verify the `Head` contained in `.testnet.secpkg` and in
 `.mainnet.secpkg` from other sources.
 
-## Docker
-
-### Running vhcd
-
-You can run a valhallacoin node from inside a docker container.  To build the image
-yourself, use the following command:
-
-```
-docker build -t valhallacoin/vhcd .
-```
-
-Or you can create an alpine based image (requires Docker 17.05 or higher):
-
-```
-docker build -t valhallacoin/vhcd:alpine -f Dockerfile.alpine .
-```
-
-You can then run the image using:
-
-```
-docker run valhallacoin/vhcd
-```
-
-You may wish to use an external volume to customise your config and persist the
-data in an external volume:
-
-```
-docker run --rm -v /home/user/vhcdata:/root/.vhcd/data valhallacoin/vhcd
-```
-
-For a minimal image, you can use the valhallacoin/vhcd:alpine tag.  This is typically
-a more secure option while also being a much smaller image.
-
-You can run vhcctl from inside the image.  For example, run an image (mounting
-your data from externally) with:
-
-```
-docker run --rm -ti --name=vhcd-1 -v /home/user/.vhcd:/root/.vhcd \
-  valhallacoin/vhcd:alpine
-```
-
-And then run vhcctl commands against it.  For example:
-
-```
-docker exec -ti vhcd-1 vhcctl getbestblock
-```
-
 ### Running Tests
 
 All tests and linters may be run in a docker (or podman) container using the
