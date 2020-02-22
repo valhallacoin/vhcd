@@ -27,9 +27,15 @@ install:
 	mkdir -p $(bindir)
 	cp -f $(vhcd) $(bindir)/$(vhcd)
 	env GO111MODULE=on GOBIN=$(bindir) go install -mod vendor -v ./cmd/...
+ifneq ($(vhcd),vhcd)
+	cp -f scripts/run-$(vhcd) $(bindir)/run-$(vhcd)
+endif
 
 uninstall:
 	rm -f $(bindir)/$(vhcd) $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcchain $(bindir)/vhcctl
+ifneq ($(vhcd),vhcd)
+	rm -f $(bindir)/run-$(vhcd)
+endif
 
 clean:
 	rm -f $(vhcd)

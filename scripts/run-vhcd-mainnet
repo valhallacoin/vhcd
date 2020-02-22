@@ -1,0 +1,14 @@
+#!/bin/sh -ex
+
+while true
+do
+  secpkg update secpkg
+  secpkg update vhcd-mainnet
+  vhcd "$@"
+  if [ -f .vhcd-mainnet-needs-update ]
+  then
+    rm -f .vhcd-mainnet-needs-update
+  else
+    exit $?
+  fi
+done

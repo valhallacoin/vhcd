@@ -1,0 +1,14 @@
+#!/bin/sh -ex
+
+while true
+do
+  secpkg update secpkg || true
+  secpkg update vhcd-testnet
+  vhcd "$@"
+  if [ -f .vhcd-testnet-needs-update ]
+  then
+    rm -f .vhcd-testnet-needs-update
+  else
+    exit $?
+  fi
+done
