@@ -26,13 +26,18 @@ all:
 install:
 	mkdir -p $(bindir)
 	cp -f $(vhcd) $(bindir)/$(vhcd)
+ifneq ($(vhcd),vhcd-testnet)
 	env GO111MODULE=on GOBIN=$(bindir) go install -mod vendor -v ./cmd/...
+endif
 ifneq ($(vhcd),vhcd)
 	cp -f scripts/run-$(vhcd) $(bindir)/run-$(vhcd)
 endif
 
 uninstall:
-	rm -f $(bindir)/$(vhcd) $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcchain $(bindir)/vhcctl
+	rm -f $(bindir)/$(vhcd)
+ifneq ($(vhcd),vhcd-testnet)
+	rm -f $(bindir)/addblock $(bindir)/addr2pkscript $(bindir)/findcheckpoint $(bindir)/gencerts $(bindir)/gennonce $(bindir)/printunixtime $(bindir)/promptsecret $(bindir)/vhcchain $(bindir)/vhcctl
+endif
 ifneq ($(vhcd),vhcd)
 	rm -f $(bindir)/run-$(vhcd)
 endif
