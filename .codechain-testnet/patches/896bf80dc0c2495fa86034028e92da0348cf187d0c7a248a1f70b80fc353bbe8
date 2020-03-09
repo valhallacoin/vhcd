@@ -1,0 +1,43 @@
+codechain patchfile version 2
+treehash 896bf80dc0c2495fa86034028e92da0348cf187d0c7a248a1f70b80fc353bbe8
+- f c73e974367ae31d1682034844f369ed96d01a0a8021de24a7997c43ee4640255 .testnet.secpkg
++ f ba0c939074955a11b5622b04bb0e7d307a38403589828265653eac79a2fb2ec7 .testnet.secpkg
+dmppatch 5
+@@ -25,86 +25,86 @@
+ t%22,%0A
+-  %22Head%22: %22cdb930c92129cb0d50708346b18df357afc9c29c6b75241489774f20ca81a4d1%22,%0A
++  %22Head%22: %22b140e3c365fea47057a2df0499298408b3e33cbe07259e0ceecb060582bae741%22,%0A
+   %22D
+- f 7ff4d3d5440c8e6bc6b7a0eb0442814bc30d31ce20fe92ae066450012c25a4e9 updater/updatemanager.go
++ f e5d0b5dbd2b6e16965ef5beb67f56e57e5d0b64cc34ff8f2f8de0f1c22439973 updater/updatemanager.go
+dmppatch 29
+@@ -267,16 +267,61 @@
+ %22time%22%0A%0A
++%09%22github.com/frankbraun/codechain/hashchain%22%0A
+ %09%22github
+@@ -354,16 +354,60 @@
+ secpkg%22%0A
++%09%22github.com/frankbraun/codechain/util/def%22%0A
+ %09%22github
+@@ -537,105 +537,49 @@
+ ond%0A
+-%09maxTimeToUpdate    = 1 * time.Hour // TODO, change:%0A%09// maxTimeToUpdate    = 7 * 24 * time.Hour%0A
++%09maxTimeToUpdate    = 7 * 24 * time.Hour%0A
+ )%0A%0A/
+@@ -1905,16 +1905,379 @@
+  nil%0A%7D%0A%0A
++func logCurrentHead(name string) error %7B%0A%09pkgDir := filepath.Join(homedir.SecPkg(), %22pkgs%22, name)%0A%09srcDir := filepath.Join(pkgDir, %22src%22)%0A%09c, err := hashchain.ReadFile(filepath.Join(srcDir, def.UnoverwriteableHashchainFile))%0A%09if err != nil %7B%0A%09%09return err%0A%09%7D%0A%09if err := c.Close(); err != nil %7B%0A%09%09return err%0A%09%7D%0A%09log.Info(%22Running head %25x%22, c.Head())%0A%09return nil%0A%7D%0A%0A
+ // taken
+@@ -2591,16 +2591,39 @@
+ nil%0A%09%09%7D%0A
++%09%09logCurrentHead(name)%0A
+ %09%09return
+@@ -3019,16 +3019,82 @@
+ , path)%0A
++%09%7D else if err := logCurrentHead(name); err != nil %7B%0A%09%09return err%0A
+ %09%7D%0A%09// n
+@@ -4753,24 +4753,59 @@
+ %09%09%09%7D else %7B%0A
++%09%09%09%09logCurrentHead(um.packageName)%0A
+ %09%09%09%09log.Warn
+treehash 58719fafb39c2c8af0078d7decd665cbc163eabe2b755da201ba28947f111bf4
