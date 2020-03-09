@@ -94,7 +94,7 @@ func checkUpdate(ctx context.Context, visited map[string]bool, name string) (boo
 	//    one from DISK, set SKIP_CHECK and NEEDS_UPDATE to true.
 	log.Println("6. compare signed heads")
 	if !skipCheck {
-		if shDNS.Head() == shDisk.Head() {
+		if shDNS.Head() != shDisk.Head() {
 			log.Println("set SKIP_CHECK and NEEDS_UPDATE to true")
 			skipCheck = true
 			needsUpdate = true
@@ -109,7 +109,7 @@ func checkUpdate(ctx context.Context, visited map[string]bool, name string) (boo
 	log.Println("7. check if HEAD is contained in hashchain")
 	if !needsUpdate {
 		srcDir := filepath.Join(pkgDir, "src")
-		c, err := hashchain.ReadFile(filepath.Join(srcDir, def.HashchainFile))
+		c, err := hashchain.ReadFile(filepath.Join(srcDir, def.UnoverwriteableHashchainFile))
 		if err != nil {
 			return false, err
 		}

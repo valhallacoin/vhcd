@@ -38,7 +38,7 @@ github.com/decred/dcrd/crypto/blake256
 github.com/decred/slog
 # github.com/fatih/color v1.9.0
 github.com/fatih/color
-# github.com/frankbraun/codechain v1.0.1
+# github.com/frankbraun/codechain v1.1.2
 github.com/frankbraun/codechain/archive
 github.com/frankbraun/codechain/hashchain
 github.com/frankbraun/codechain/hashchain/internal/state
@@ -70,18 +70,18 @@ github.com/jessevdk/go-flags
 github.com/jrick/bitset
 # github.com/jrick/logrotate v1.0.0
 github.com/jrick/logrotate/rotator
-# github.com/mattn/go-colorable v0.1.4
+# github.com/mattn/go-colorable v0.1.6
 github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.12
 github.com/mattn/go-isatty
-# golang.org/x/crypto v0.0.0-20200220183623-bac4c82f6975
+# golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
 golang.org/x/crypto/poly1305
 golang.org/x/crypto/ripemd160
 golang.org/x/crypto/salsa20/salsa
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/sys v0.0.0-20200219091948-cb0a6d8edb6c
+# golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
 golang.org/x/sys/windows

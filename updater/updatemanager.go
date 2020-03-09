@@ -134,7 +134,9 @@ func (um *UpdateManager) checkUpdate() error {
 		if err == ErrNeedsUpdate {
 			return um.triggerUpdate()
 		}
-		return err
+		log.Warnf("Update check for package '%s' error: %s",
+			um.packageName, err)
+		return nil
 	}
 	log.Info("No update needed")
 	return nil
