@@ -22,8 +22,7 @@ import (
 const (
 	tickerDuration     = 5 * time.Minute
 	checkUpdateTimeout = 5 * time.Second
-	maxTimeToUpdate    = 1 * time.Hour // TODO, change:
-	// maxTimeToUpdate    = 7 * 24 * time.Hour
+	maxTimeToUpdate    = 7 * 24 * time.Hour
 )
 
 // UpdateManager provides a concurrency safe update manager.
