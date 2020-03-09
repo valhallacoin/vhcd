@@ -15,7 +15,9 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/frankbraun/codechain/hashchain"
 	"github.com/frankbraun/codechain/secpkg"
+	"github.com/frankbraun/codechain/util/def"
 	"github.com/frankbraun/codechain/util/homedir"
 )
 
@@ -79,6 +81,20 @@ func (u *UpdateManager) Stop() error {
 	return nil
 }
 
+func logCurrentHead(name string) error {
+	pkgDir := filepath.Join(homedir.SecPkg(), "pkgs", name)
+	srcDir := filepath.Join(pkgDir, "src")
+	c, err := hashchain.ReadFile(filepath.Join(srcDir, def.UnoverwriteableHashchainFile))
+	if err != nil {
+		return err
+	}
+	if err := c.Close(); err != nil {
+		return err
+	}
+	log.Info("Running head %x", c.Head())
+	return nil
+}
+
 // taken from github.com/frankbraun/codechain/secpkg/update.go
 func upToDateIfInstalled(ctx context.Context, name string) error {
 	needsUpdate, err := secpkg.CheckUpdate(ctx, name)
@@ -87,6 +103,7 @@ func upToDateIfInstalled(ctx context.Context, name string) error {
 			log.Warnf("Package '%s' not installed via `secpkg install`", name)
 			return nil
 		}
+		logCurrentHead(name)
 		return err
 	}
 	// determine path of currently running executable
@@ -99,6 +116,8 @@ func upToDateIfInstalled(ctx context.Context, name string) error {
 	if !strings.HasPrefix(path, localDir) {
 		log.Warnf("Package '%s' installed via `secpkg install`, but running different executable: %s",
 			name, path)
+	} else if err := logCurrentHead(name); err != nil {
+		return err
 	}
 	// now report update needs, if necessary
 	if needsUpdate {
@@ -174,6 +193,7 @@ out:
 					um.stop(err)
 				}
 			} else {
+				logCurrentHead(um.packageName)
 				log.Warnf("Exiting for update at %s", um.updateTime.Format(time.RFC3339))
 			}
 		}
